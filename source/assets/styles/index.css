@@ -1,0 +1,288 @@
+/*
+ * David Lettier (C) 2014.
+ * http://www.lettier.com/
+ * 
+ */
+
+body {
+	
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	font-family: 'Oswald', sans-serif;
+	font-size: 20px;
+	overflow-x: hidden;
+	background: #404040;
+	color: #eee;
+	
+}
+
+input[type=range] {
+	
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+	
+	height: 5px;
+	background: #546724;
+	border: none;
+	border-radius: 3px;
+	
+}
+
+input[type=range]::-webkit-slider-thumb {
+	
+	-webkit-appearance: none;
+	padding-bottom: 2px;
+	margin-bottom: 5px;
+	border: 0px solid #719b2f;
+	height: 16px;
+	width: 16px;
+	border-radius: 100%;
+	background: #fff;
+	margin-top: -4px;
+	
+}
+
+input[type=range]::-moz-range-track {
+	
+	height: 5px;
+	background: #546724;
+	border: none;
+	border-radius: 3px;
+	
+}
+
+input[type=range]::-moz-range-thumb {
+	
+	-webkit-appearance: none;
+	padding-bottom: 2px;
+	margin-bottom: 5px;
+	border: 0px solid #719b2f;
+	height: 16px;
+	width: 16px;
+	border-radius: 100%;
+	background: #fff;
+	margin-top: -4px;
+	
+}
+
+input[type=range]:focus {
+	
+	outline: none;
+	
+}
+
+::-webkit-input-placeholder {
+	
+	color: #546724;
+}
+
+::-moz-placeholder {
+	
+	color: #546724;
+	
+}
+
+:-ms-input-placeholder {
+	
+	color: #546724;
+	
+}
+
+#logo_text {
+	
+	display: inline;
+	line-height: 30px;
+	color: #f9f9f9;	
+	font-family: 'Lobster', cursive;
+	text-shadow: 0px 2px 0px #5b6d72, 0px 4px 3px #111;
+	cursor: pointer;
+	letter-spacing: -4px;
+}
+
+#top_bar {
+
+	width: 100%;
+	height: auto;
+	background: #343434;
+	padding: 5px;
+	padding-bottom: 10px;
+	margin: 0px;
+	border-bottom: 3px solid #171717;
+	opacity: 0.9;
+	
+}
+
+#plus_sign {
+
+	display: inline;
+	float: right;
+	line-height: 30px;
+	vertical-align: baseline;
+	font-size: 70px;
+	color: #eda7a5;	
+	font-family: 'Lobster', cursive;
+	text-shadow: 0px 2px 0px #ba514b, 0px 4px 3px #111;
+	margin-right: 20px;
+	cursor: pointer;
+	
+}
+
+#plus_sign:hover {
+
+	color: #36a8ca;
+	text-shadow: 0px 2px 0px #19587b, 0px 4px 3px #111;
+	
+}
+	
+
+#logo_image {
+
+	height: 40px;
+	width: auto;
+	padding-top: 5px;
+	padding-bottom: 0px;
+	vertical-align: bottom;
+	
+}
+
+#db_status {
+
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	font-size: 100px;
+	display: block;
+	text-align: center;
+}
+
+.container {
+
+	width: 800px;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+	display: table;
+	padding-top: 0px;
+	
+}
+
+.stick {
+	
+	position:fixed;
+	top: 0px;
+}
+
+.job_status {
+	
+	width: 188px;
+	
+}
+
+.job_number {
+	
+	font-size: 300px;
+	margin-right: 50px;
+	color: #36a8ca;
+	text-shadow: 0px 3px 0px #19587b, 0px 4px 3px #333, 0px -2px 0px #ddd;
+	
+	
+}
+
+.row {
+	
+	display: table-row;
+	width: 100%;
+	
+}
+
+.column {
+	
+	display: table-cell;
+	width: 100%;
+	
+}
+
+.job_form {
+	
+	border: none;
+	padding: 2px;
+	margin: 0px;
+	display: inline-block;
+	border-radius: 5px;
+	width: 100%;
+	
+}	
+
+.input_box {
+	
+	background: #93ae4d;
+	color: #fff;
+	border: none;
+	border-bottom: 2px solid #728c31;
+	border-top: 1px solid #bde851;
+	border-radius: 2px;
+	padding: 5px;
+	margin: 5px;
+	display: inline;
+	outline: none;
+	font-family: 'Oswald', sans-serif;
+	width: 177px;
+	font-size: 15px;
+	box-shadow: 0px 4px 3px #333;
+	
+}
+
+.notes {
+	
+	width: 965px;
+	height: 150px;
+	font-family: 'Oswald', sans-serif;
+	resize: vertical;
+}
+
+.rating {
+	
+	width: 915px;
+	height: 30px;
+	vertical-align: middle;
+	
+}
+
+.rating_reading {
+	
+	width: 60px;
+	height: 30px;
+	vertical-align: middle;
+	font-size: 19px;
+	
+}
+
+.job_status {
+	
+	width: 189px;
+	
+}
+
+.status {
+	
+	font-size: 20px;
+	margin-left: 5px;
+	float: left;
+	letter-spacing: 5px;
+	
+}
+
+.date {
+	
+	float: right;
+	margin-right: 10px;
+	letter-spacing: 5px;
+	
+}
