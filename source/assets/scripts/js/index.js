@@ -18,6 +18,8 @@ $( document ).ready ( function ( ) {
 	
 	var job_status_options_html = "";
 	
+	var sorted_by_rating = false;
+	
 	for ( var i = 0; i < job_status_options.length; ++ i )
 	{
 		
@@ -85,10 +87,11 @@ $( document ).ready ( function ( ) {
 						'<input    class="input_box contact_street" name="job_street"     type="text"  placeholder="Job Street"     value="">' +
 						'<input    class="input_box contact_city"   name="job_city"       type="text"  placeholder="Job City"       value="">' +
 						'<br>' +
-						'<textarea class="input_box notes"  name="notes" placeholder="Notes"></textarea>' +
-						'<input    class="input_box rating" name="rating" type="range" title="Rating" value="100">'  +
-						'<span class="input_box rating_reading">' + 100 + '</span>' +
-						'<input                             name="last_updated" type="hidden" value="' + date + '">' +
+						'<textarea class="input_box notes"          name="notes" placeholder="Notes"></textarea>' +
+						'<span     class="star">&starf;</span>' +
+						'<input    class="input_box rating"         name="rating" type="range" title="Rating" value="100">'  +
+						'<span     class="input_box rating_reading">' + 100 + '</span>' +
+						'<input                                     name="last_updated" type="hidden" value="' + date + '">' +
 						'<span     class="status">New.</span>' +
 						'<span     class="date">' + " " + date + "</span>" +
 					'</form>' +
@@ -180,7 +183,7 @@ $( document ).ready ( function ( ) {
 			
 		} 
 		
-		switch ( job[ "rating" ].length )
+		switch ( job[ "rating" ].toString( ).length )
 		{
 			
 			case 1:
@@ -197,6 +200,7 @@ $( document ).ready ( function ( ) {
 				break;
 				
 		}
+
 		
 		$( ".container" ).append( 
 		
@@ -222,12 +226,13 @@ $( document ).ready ( function ( ) {
 						'<input    class="input_box contact_street" name="job_street" type="text"      placeholder="Job Street"     value="' + job[ "job_street" ] + '">' +
 						'<input    class="input_box contact_city"   name="job_city"   type="text"      placeholder="Job City"       value="' + job[ "job_city" ] + '">' +
 						'<br>' +
-						'<textarea class="input_box notes"  name="notes" placeholder="Notes">' + job[ "notes" ] + '</textarea>' +
-						'<input    class="input_box rating" name="rating" type="range" title="Rating" value="' + job[ "rating" ] + '">' +
-						'<span class="input_box rating_reading">' + job[ "rating" ] + '</span>' +
-						'<input                             name="last_updated" type="hidden" value="' + job[ "last_updated" ] + '">'   +
-						'<span class="status">Saved.</span>' +
-						'<span class="date">' + " " + job[ "last_updated" ] + "</span>" +
+						'<textarea class="input_box notes"          name="notes" placeholder="Notes">' + job[ "notes" ] + '</textarea>' +
+						'<span     class="star">&starf;</span>' +
+						'<input    class="input_box rating"         name="rating" type="range" title="Rating" value="' + job[ "rating" ] + '">' +
+						'<span     class="input_box rating_reading">' + job[ "rating" ] + '</span>' +
+						'<input                                     name="last_updated" type="hidden" value="' + job[ "last_updated" ] + '">'   +
+						'<span     class="status">Saved.</span>' +
+						'<span     class="date">' + " " + job[ "last_updated" ] + "</span>" +
 					'</form>' +
 				'</div>' +
 			'</div>'
@@ -314,6 +319,8 @@ $( document ).ready ( function ( ) {
 				
 				$( "[job='" + job_number + "']" ).children( "[name='last_updated']" ).val( date );
 				
+				$( "#total_jobs" ).html( number_of_jobs.toString( ) );
+				
 			},
 			error: function ( data ) {
 				
@@ -330,6 +337,8 @@ $( document ).ready ( function ( ) {
 		
 		$( "#db_status" ).html( "Getting job data..." );
 		
+		$( ".container" ).html( "" );
+		
 		$.ajax( {
 			
 			type: "POST",
@@ -342,7 +351,7 @@ $( document ).ready ( function ( ) {
 					
 					$( "#db_status" ).html( "Add a job." );
 					
-					$( "#plus_sign" ).animate( {
+					$( "#add_new" ).animate( {
 						
 						marginRight: "200px"
 						
@@ -350,7 +359,7 @@ $( document ).ready ( function ( ) {
 					1000,
 					function ( ) {
 						
-						$( "#plus_sign" ).animate( {
+						$( "#add_new" ).animate( {
 							
 							marginRight: "20px"
 							
@@ -374,19 +383,120 @@ $( document ).ready ( function ( ) {
 					
 					$( "#db_status" ).html( "" );
 					
+					$( "#total_jobs" ).html( number_of_jobs.toString( ) );
+					
 				}
 				
 			},
 			error: function ( data ) {				
 				
 				$( "#db_status" ).html( "There was an error." );
+				
 			}
 			
 		} );
 		
 	}
 	
-	$( "#plus_sign" ).on( "click", add_blank_job );
+	function get_jobs_by_rating( )
+	{
+		
+		$( "#db_status" ).html( "Getting job data..." );
+		
+		$( ".container" ).html( "" );
+		
+		var data = { 
+			
+			"field": "rating",
+			"order": -1
+			
+		}
+		
+		$.ajax( {
+			
+			type: "POST",
+			url: "/sort",
+			data: JSON.stringify( data ),
+			success: function ( data ) {
+				
+				if ( data == "" )
+				{
+					
+					$( "#db_status" ).html( "Add a job." );
+					
+					$( "#add_new" ).animate( {
+						
+						marginRight: "200px"
+						
+					},
+					1000,
+					function ( ) {
+						
+						$( "#add_new" ).animate( {
+							
+							marginRight: "20px"
+							
+						},
+						1000 );
+						
+					} );
+					
+				}
+				else 
+				{					
+					
+					data = JSON.parse( data ); 
+					
+					for ( var i = 0; i < data.length; ++i )
+					{
+						
+						add_job( data[ i ] );
+						
+					}
+					
+					$( "#db_status" ).html( "" );
+					
+					$( "#total_jobs" ).html( number_of_jobs.toString( ) );
+					
+				}
+				
+			},
+			error: function ( data ) {				
+				
+				$( "#db_status" ).html( "There was an error." );
+				
+			}
+			
+		} );
+		
+	}
+	
+	$( "#add_new" ).on( "click", add_blank_job );
+	
+	$( "#sort_rating" ).on( "click", function ( ) {
+		
+		if ( sorted_by_rating === false )
+		{
+		
+			get_jobs_by_rating( );
+			
+			sorted_by_rating = true;
+			
+			$( "#sort_rating" ).attr( "title", "Unsort by rating." );
+			
+		}			
+		else if ( sorted_by_rating === true )
+		{
+			
+			get_jobs( );
+			
+			sorted_by_rating = false;
+			
+			$( "#sort_rating" ).attr( "title", "Sort by rating." );
+			
+		}	
+		
+	} );
 	
 	get_jobs( );
 	

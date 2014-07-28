@@ -96,9 +96,45 @@ function db_handler( request, response, uri )
 	
 	// An plain text response.
 	
-	response.writeHead( 200, { "Content-Type": "text/plain" } );
+	response.writeHead( 200, { "Content-Type": "text/plain" } );	
 	
-	if ( uri === "/update" )
+	if ( uri === "/all" )
+	{
+		
+		request.on( "data" , function ( data ) {
+			
+			
+		} );
+		
+		request.on( "end", function ( ) {
+			
+			db.jobs.find( { } ).sort( { "number": 1 } , function ( error, records  ) {
+				
+				if ( records.length === 0  )
+				{
+					
+					response.write( "" );
+					
+					response.end( );
+					
+				}
+				else
+				{
+				
+					var data = JSON.stringify( records );
+					
+					response.write( data );
+					
+					response.end( );
+					
+				}
+				
+			} );			
+			
+		} );
+		
+	}
+	else if ( uri === "/update" )
 	{
 		
 		// Gather the POST body.
@@ -126,7 +162,11 @@ function db_handler( request, response, uri )
 			
 			response.write( data[ "number" ] );
 			
-			db.jobs.update( { "number": data[ "number" ].toString( ) }, data, { upsert: true }, function ( ) {
+			data[ "rating" ] = parseInt( data[ "rating" ], 10 );
+			
+			data[ "number" ] = parseInt( data[ "number" ], 10 );
+			
+			db.jobs.update( { "number": data[ "number" ] }, data, { upsert: true }, function ( ) {
 				
 				console.log( "Database updated." );
 				
@@ -138,17 +178,36 @@ function db_handler( request, response, uri )
 		} );
 		
 	}
-	else if ( uri === "/all" )
+	else if ( uri === "/sort" )
 	{
+		// Gather the POST body.
 		
-		request.on( "data" , function ( data ) {
+		var body = "";
+		
+		request.on( "data", function ( data ) {
 			
+			body += data;
+			
+			// Avoid large POST bodies.
+			
+			if ( body.length > 1e6 )
+			{
+				
+				request.connection.destroy( );
+				
+			}
 			
 		} );
 		
 		request.on( "end", function ( ) {
 			
-			db.jobs.find( { }, function ( error, records  ) {
+			var data = JSON.parse( body );
+			
+			var sort_by = { };
+			
+			sort_by[ data[ "field" ] ] = parseInt( data[ "order" ], 10 );
+			
+			db.jobs.find( { } ).sort( sort_by, function ( error, records  ) {
 				
 				if ( records.length === 0  )
 				{
@@ -160,7 +219,7 @@ function db_handler( request, response, uri )
 				}
 				else
 				{
-				
+					
 					var data = JSON.stringify( records );
 					
 					response.write( data );
@@ -182,13 +241,19 @@ function server_handler( request, response, uri )
 	
 	var uri = url.parse( request.url ).pathname;
 
-	if ( request.method === "POST" && uri === "/update" ) 
+	if ( request.method === "POST" && uri === "/all" )
 	{
 		
 		db_handler( request, response, uri );
 		
 	}
-	else if ( request.method === "POST" && uri === "/all" )
+	else if ( request.method === "POST" && uri === "/update" ) 
+	{
+		
+		db_handler( request, response, uri );
+		
+	}
+	else if ( request.method === "POST" && uri === "/sort" ) 
 	{
 		
 		db_handler( request, response, uri );

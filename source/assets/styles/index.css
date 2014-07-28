@@ -100,9 +100,23 @@ input[type=range]:focus {
 	line-height: 30px;
 	color: #f9f9f9;	
 	font-family: 'Lobster', cursive;
-	text-shadow: 0px 2px 0px #5b6d72, 0px 4px 3px #111;
+	text-shadow: 0px 2px 0px #5b6d72, 0px 4px 3px #222;
 	cursor: pointer;
 	letter-spacing: -4px;
+}
+
+#total_jobs {
+
+	display: inline;
+	line-height: 30px;
+	font-size: 40px;
+	margin-left: 20px;
+	line-height: 30px;
+	vertical-align: bottom;
+	color: #36a8ca;	
+	text-shadow: 0px 3px 0px #19587b, 0px 4px 3px #222;
+	position: relative;
+	top: -5px;
 }
 
 #top_bar {
@@ -115,29 +129,50 @@ input[type=range]:focus {
 	margin: 0px;
 	border-bottom: 3px solid #171717;
 	opacity: 0.9;
+	z-index: 5;
 	
 }
 
-#plus_sign {
+#add_new {
 
 	display: inline;
 	float: right;
 	line-height: 30px;
 	vertical-align: baseline;
-	font-size: 70px;
+	font-size: 100px;
 	color: #eda7a5;	
-	font-family: 'Lobster', cursive;
-	text-shadow: 0px 2px 0px #ba514b, 0px 4px 3px #111;
+	text-shadow: 0px 2px 0px #ba514b, 0px 4px 3px #222;
 	margin-right: 20px;
 	cursor: pointer;
 	
 }
 
-#plus_sign:hover {
+#add_new:hover {
 
 	color: #36a8ca;
-	text-shadow: 0px 2px 0px #19587b, 0px 4px 3px #111;
+	text-shadow: 0px 2px 0px #19587b, 0px 4px 3px #222;
 	
+}
+
+#sort_rating {
+
+	display: inline;
+	float: right;
+	line-height: 40px;
+	vertical-align: baseline;
+	font-size: 50px;
+	color: #eda7a5;	
+	text-shadow: 0px 2px 0px #ba514b, 0px 4px 3px #222;
+	margin-right: 20px;
+	cursor: pointer;
+
+}
+
+#sort_rating:hover {
+
+color: #36a8ca;
+text-shadow: 0px 2px 0px #19587b, 0px 4px 3px #222;
+
 }
 	
 
@@ -247,9 +282,20 @@ input[type=range]:focus {
 	resize: vertical;
 }
 
+.star {
+	
+	color: #93ae4d;
+	text-shadow: 0px 2px 0px #728c31, 0px -1px 0px #bde851, 0px 2px 5px #222;
+	font-size: 49px;
+	position: relative;
+	top: 10px;
+	line-height: 10px;
+	
+}
+
 .rating {
 	
-	width: 915px;
+	width: 867px;
 	height: 30px;
 	vertical-align: middle;
 	
@@ -257,10 +303,12 @@ input[type=range]:focus {
 
 .rating_reading {
 	
-	width: 60px;
-	height: 30px;
+	width: 34px;
+	height: auto;
+	display: inline-block;
 	vertical-align: middle;
 	font-size: 19px;
+	text-align: center;
 	
 }
 
