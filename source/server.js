@@ -166,6 +166,8 @@ function db_handler( request, response, uri )
 			
 			data[ "number" ] = parseInt( data[ "number" ], 10 );
 			
+			data[ "time_entered" ] = parseInt( data[ "time_entered" ], 10 );
+			
 			db.jobs.update( { "number": data[ "number" ] }, data, { upsert: true }, function ( ) {
 				
 				console.log( "Database updated." );
@@ -180,6 +182,7 @@ function db_handler( request, response, uri )
 	}
 	else if ( uri === "/sort" )
 	{
+		
 		// Gather the POST body.
 		
 		var body = "";

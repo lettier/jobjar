@@ -6,9 +6,6 @@
 
 $( document ).ready ( function ( ) {
 	
-	var top_bar          = $( "#top_bar" );
-	var top_bar_position = top_bar.position( );
-	
 	var job_objects    = $( "[job]" );	
 	var number_of_jobs = job_objects.length;
 	
@@ -29,18 +26,16 @@ $( document ).ready ( function ( ) {
 	
 	$( window ).scroll( function( ) {
 		
-		var window_pos = $( window ).scrollTop( );
-		
-		if ( window_pos >= top_bar_position.top ) 
+		if ( $( window ).scrollTop( ) > $( "#top_bar" )[ 0 ].offsetTop ) 
 		{
 			
-			top_bar.addClass( "stick" );
+			$( "#top_bar" ).addClass( "stick" );
 			
 		}
 		else 
 		{
 			
-			top_bar.removeClass( "stick" );
+			$( "#top_bar" ).removeClass( "stick" );
 			
 		}
 		
@@ -61,13 +56,13 @@ $( document ).ready ( function ( ) {
 		
 		var i = number_of_jobs + 1;
 		
-		var date = new Date( ).toString( )
+		var time_in_ms = Date.now( );
 		
 		$( ".container" ).append( 
 
 			'<div class="row">' +
 				'<div class="column">' +
-					'<div class="job_number">' +
+					'<div class="job_number" id="job_number_' + i + '" title="Collapse.">' +
 						i +
 					'</div>' +
 				'</div>' +
@@ -77,9 +72,11 @@ $( document ).ready ( function ( ) {
 						'<input    class="input_box position_title" name="position_title" type="text" placeholder="Position Title" value="">' +
 						'<input    class="input_box applied_via"    name="applied_via"    type="text" placeholder="Applied Via"    value="">' +
 						'<input    class="input_box job_link"       name="job_link"       type="url"  placeholder="Job Link"       value="">' +
-						'<select   class="input_box job_status"     name="job_status">' +
+						'<div class="custom_select">' +
+						'<select   class="input_box db_job_status"  name="job_status">' +
 						job_status_options_html +
-						'</select>' +			
+						'</select>' +
+						'</div>' +			
 						'<br>' +
 						'<input    class="input_box contact_name"   name="contact_name"   type="text"  placeholder="Contact Name"   value="">' +
 						'<input    class="input_box contact_email"  name="contact_email"  type="email" placeholder="Contact Email"  value="">' +
@@ -91,9 +88,9 @@ $( document ).ready ( function ( ) {
 						'<span     class="star">&starf;</span>' +
 						'<input    class="input_box rating"         name="rating" type="range" title="Rating" value="100">'  +
 						'<span     class="input_box rating_reading">' + 100 + '</span>' +
-						'<input                                     name="last_updated" type="hidden" value="' + date + '">' +
+						'<input                                     name="time_entered" type="hidden" value="' + time_in_ms + '">' +
 						'<span     class="status">New.</span>' +
-						'<span     class="date">' + " " + date + "</span>" +
+						'<span     class="date">0 Days 0 Hours 0 Minutes 0 Seconds</span>' +
 					'</form>' +
 				'</div>' +
 			'</div>'
@@ -123,6 +120,7 @@ $( document ).ready ( function ( ) {
 				case 2: 
 					
 					value = "0" + value;
+					break;
 					
 				default:
 					
@@ -131,6 +129,32 @@ $( document ).ready ( function ( ) {
 			}
 			
 			$( "[job='" + job_number + "']" ).children( ".rating_reading" ).html( value );
+			
+		} );
+		
+		$( "#job_number_" + i ).on( "click", function ( ) {
+			
+			
+			if ( $( "[job='" + i + "']" ).hasClass( "job_form_min" ) === true )
+			{
+				
+				$( "[job='" + i + "']" ).removeClass( "job_form_min" );
+				
+				$( "#job_number_" + i ).removeClass( "job_number_min" );
+				
+				$( "#job_number_" + i ).attr( "title", "Collapse." );
+				
+			}
+			else
+			{
+				
+				$( "[job='" + i + "']" ).addClass( "job_form_min" );
+				
+				$( "#job_number_" + i ).addClass( "job_number_min" );
+				
+				$( "#job_number_" + i ).attr( "title", "Expand." );
+				
+			}
 			
 		} );
 		
@@ -194,31 +218,35 @@ $( document ).ready ( function ( ) {
 			case 2: 
 				
 				job[ "rating" ] = "0" + job[ "rating" ];
+				break;
 				
 			default:
 				
 				break;
 				
 		}
-
+		
+		var time_difference_string = get_time_difference_string( parseInt( job[ "time_entered" ], 10 ) );
 		
 		$( ".container" ).append( 
 		
 			'<div class="row">' +
 				'<div class="column">' +
-					'<div class="job_number">' +
+				'<div class="job_number job_number_min" id="job_number_' + job[ "number" ] + '" title="Expand.">' +
 						job[ "number" ] +
 					'</div>' +
 				'</div>' +
 				'<div class="column">' +
-					'<form class="job_form" job="' + job[ "number" ] + '">' +
+					'<form class="job_form job_form_min" job="' + job[ "number" ] + '">' +
 						'<input    class="input_box company_name"   name="company_name"   type="text" placeholder="Company Name"   value="' + job[ "company_name" ] + '">' +
 						'<input    class="input_box position_title" name="position_title" type="text" placeholder="Position Title" value="' + job[ "position_title" ] + '">' +
 						'<input    class="input_box applied_via"    name="applied_via"    type="text" placeholder="Applied Via"    value="' + job[ "applied_via" ] + '">' +
 						'<input    class="input_box job_link"       name="job_link"       type="url"  placeholder="Job Link"       value="' + job[ "job_link" ] + '">' +
-						'<select   class="input_box job_status"     name="job_status">' +
+						'<div class="custom_select">' +
+						'<select   class="input_box db_job_status"  name="job_status">' +
 						job_status_options_html +
-						'</select>' +			
+						'</select>' +
+						'</div>' +
 						'<br>' +
 						'<input    class="input_box contact_name"   name="contact_name"   type="text"  placeholder="Contact Name"   value="' + job[ "contact_name" ] + '">' +
 						'<input    class="input_box contact_email"  name="contact_email"  type="email" placeholder="Contact Email"  value="' + job[ "contact_email" ] + '">' +
@@ -230,9 +258,9 @@ $( document ).ready ( function ( ) {
 						'<span     class="star">&starf;</span>' +
 						'<input    class="input_box rating"         name="rating" type="range" title="Rating" value="' + job[ "rating" ] + '">' +
 						'<span     class="input_box rating_reading">' + job[ "rating" ] + '</span>' +
-						'<input                                     name="last_updated" type="hidden" value="' + job[ "last_updated" ] + '">'   +
+						'<input                                     name="time_entered" type="hidden" value="' + job[ "time_entered" ] + '">'   +
 						'<span     class="status">Saved.</span>' +
-						'<span     class="date">' + " " + job[ "last_updated" ] + "</span>" +
+						'<span     class="date">' + time_difference_string + "</span>" +
 					'</form>' +
 				'</div>' +
 			'</div>'
@@ -260,6 +288,7 @@ $( document ).ready ( function ( ) {
 				case 2: 
 					
 					value = "0" + value;
+					break;
 					
 				default:
 					
@@ -271,6 +300,32 @@ $( document ).ready ( function ( ) {
 			
 		} );
 		
+		$( "#job_number_" + job[ "number" ] ).on( "click", function ( ) {
+			
+			
+			if ( $( "[job='" + job[ "number" ] + "']" ).hasClass( "job_form_min" ) === true )
+			{
+
+				$( "[job='" + job[ "number" ] + "']" ).removeClass( "job_form_min" );
+				
+				$( "#job_number_" + job[ "number" ] ).removeClass( "job_number_min" );
+				
+				$( "#job_number_" + job[ "number" ] ).attr( "title", "Collapse." );
+				
+			}
+			else
+			{
+				
+				$( "[job='" + job[ "number" ] + "']" ).addClass( "job_form_min" );
+				
+				$( "#job_number_" + job[ "number" ] ).addClass( "job_number_min" );
+				
+				$( "#job_number_" + job[ "number" ] ).attr( "title", "Expand." );
+				
+			}
+			
+		} );			
+			
 	}
 	
 	function update_job( )
@@ -282,27 +337,14 @@ $( document ).ready ( function ( ) {
 		
 		var data = { "number": job_number };
 		
-		var date = new Date( ).toString( );
-		
 		for ( var i = 0; i < job[ 0 ].length; ++i )
 		{
-		
-			if ( job[ 0 ][ i ].name === "last_updated" )
-			{
-				
-				data[ job[ 0 ][ i ].name ] = date;
-				
-			}	
-			else
-			{
-			
-				data[ job[ 0 ][ i ].name ] = job[ 0 ][ i ].value;
-				
-			}
+
+			data[ job[ 0 ][ i ].name ] = job[ 0 ][ i ].value;
 			
 		}
 		
-		var data_string = JSON.stringify( data );
+		var time_difference_string = get_time_difference_string( parseInt( $( "[job='" + job_number + "']" ).children( "[name='time_entered']" ).val( ), 10 ) );
 		
 		$( this ).children( ".status" ).html( "Saving..." );
 		
@@ -310,14 +352,12 @@ $( document ).ready ( function ( ) {
 			
 			type: "POST",
 			url: "/update",
-			data: data_string,
+			data: JSON.stringify( data ),
 			success: function ( data ) {
 			
 				$( "[job='" + job_number + "']" ).children( ".status" ).html( "Saved." );
 				
-				$( "[job='" + job_number + "']" ).children( ".date" ).html( date );
-				
-				$( "[job='" + job_number + "']" ).children( "[name='last_updated']" ).val( date );
+				$( "[job='" + job_number + "']" ).children( ".date" ).html( time_difference_string );
 				
 				$( "#total_jobs" ).html( number_of_jobs.toString( ) );
 				
@@ -501,3 +541,30 @@ $( document ).ready ( function ( ) {
 	get_jobs( );
 	
 } );
+
+function get_time_difference_string( milliseconds )
+{
+	
+	var date_now = Date.now( );
+	
+	var time_difference = date_now - parseInt( milliseconds, 10 );
+	
+	var days = Math.floor( time_difference / ( 1000 * 60 * 60 * 24 ) );
+	
+	time_difference -= Math.floor( days * ( 1000 * 60 * 60 * 24 ) );		
+	
+	var hours = Math.floor( time_difference / ( 1000 * 60 * 60 ) );
+	
+	time_difference -= Math.floor( hours * ( 1000 * 60 * 60 ) );
+	
+	var minutes = Math.floor( time_difference / ( 1000 * 60 ) );
+	
+	time_difference -= Math.floor( minutes * ( 1000 * 60 ) );
+	
+	var seconds = Math.floor( time_difference / 1000 );
+	
+	var time_difference_string = days + " Days " + hours + " Hours " + minutes + " Minutes " + seconds + " Seconds";
+	
+	return time_difference_string;
+	
+}

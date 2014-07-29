@@ -18,6 +18,15 @@ body {
 	
 }
 
+select {
+	
+	/* To hide Firefox's drop down arrow. */
+	
+	width: 201px !important;
+	height: 35px !important;
+	
+}
+
 input[type=range] {
 	
 	-webkit-appearance: none;
@@ -103,6 +112,7 @@ input[type=range]:focus {
 	text-shadow: 0px 2px 0px #5b6d72, 0px 4px 3px #222;
 	cursor: pointer;
 	letter-spacing: -4px;
+	
 }
 
 #total_jobs {
@@ -110,13 +120,13 @@ input[type=range]:focus {
 	display: inline;
 	line-height: 30px;
 	font-size: 40px;
-	margin-left: 20px;
-	line-height: 30px;
+	margin-left: 0px;
 	vertical-align: bottom;
 	color: #36a8ca;	
 	text-shadow: 0px 3px 0px #19587b, 0px 4px 3px #222;
 	position: relative;
 	top: -5px;
+	
 }
 
 #top_bar {
@@ -170,8 +180,8 @@ input[type=range]:focus {
 
 #sort_rating:hover {
 
-color: #36a8ca;
-text-shadow: 0px 2px 0px #19587b, 0px 4px 3px #222;
+	color: #36a8ca;
+	text-shadow: 0px 2px 0px #19587b, 0px 4px 3px #222;
 
 }
 	
@@ -183,7 +193,7 @@ text-shadow: 0px 2px 0px #19587b, 0px 4px 3px #222;
 	padding-top: 5px;
 	padding-bottom: 0px;
 	vertical-align: bottom;
-	
+	margin-left: 5px;
 }
 
 #db_status {
@@ -197,6 +207,25 @@ text-shadow: 0px 2px 0px #19587b, 0px 4px 3px #222;
 	text-align: center;
 }
 
+.stick {
+	
+	position:fixed;
+	top: 0px;
+	
+}
+
+.separator {
+
+	font-size: 30px;
+	margin-left: 20px;
+	margin-right: 15px;
+	color: #171717;
+	text-shadow: 0px 1px 0px rgba(86, 91, 95, 1);
+	position: relative;
+	top: 3px;
+	
+}
+
 .container {
 
 	width: 800px;
@@ -204,29 +233,27 @@ text-shadow: 0px 2px 0px #19587b, 0px 4px 3px #222;
 	margin-left: auto;
 	margin-right: auto;
 	display: table;
-	padding-top: 0px;
+	position: relative;
 	
 }
 
-.stick {
-	
-	position:fixed;
-	top: 0px;
-}
-
-.job_status {
+.db_job_status {
 	
 	width: 188px;
 	
 }
 
-.job_number {
+.custom_select {
 	
-	font-size: 300px;
-	margin-right: 50px;
-	color: #36a8ca;
-	text-shadow: 0px 3px 0px #19587b, 0px 4px 3px #333, 0px -2px 0px #ddd;
+	/* To hide Firefox's drop down arrow. */
 	
+	width: 193px;
+	overflow: hidden;
+	padding: 0px;
+	margin: 0px;
+	display: inline-block;
+	position: relative;
+	top: 16px;
 	
 }
 
@@ -244,16 +271,43 @@ text-shadow: 0px 2px 0px #19587b, 0px 4px 3px #222;
 	
 }
 
+.job_number {
+	
+	font-size: 300px;
+	margin-right: 50px;
+	text-align: right;
+	color: #36a8ca;
+	text-shadow: 0px 3px 0px #19587b, 0px 4px 3px #333, 0px -2px 0px #ddd;
+	cursor: pointer;
+	
+}
+
+.job_number_min {
+	
+	font-size: 110px;
+	
+}
+
 .job_form {
 	
 	border: none;
 	padding: 2px;
 	margin: 0px;
 	display: inline-block;
-	border-radius: 5px;
 	width: 100%;
+	height: auto;
+	position: relative;
+	top: 0px;
 	
-}	
+}
+
+.job_form_min {
+	
+	height: 64px;
+	overflow: hidden;
+	top: 10px;
+	
+}
 
 .input_box {
 	
@@ -333,4 +387,4 @@ text-shadow: 0px 2px 0px #19587b, 0px 4px 3px #222;
 	margin-right: 10px;
 	letter-spacing: 5px;
 	
-}
+}	
