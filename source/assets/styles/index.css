@@ -188,7 +188,7 @@ input[type=range]:focus {
 
 #logo_image {
 
-	height: 40px;
+	height: 45px;
 	width: auto;
 	padding-top: 5px;
 	padding-bottom: 0px;
@@ -247,7 +247,7 @@ input[type=range]:focus {
 	
 	/* To hide Firefox's drop down arrow. */
 	
-	width: 193px;
+	width: 190px;
 	overflow: hidden;
 	padding: 0px;
 	margin: 0px;
@@ -279,6 +279,7 @@ input[type=range]:focus {
 	color: #36a8ca;
 	text-shadow: 0px 3px 0px #19587b, 0px 4px 3px #333, 0px -2px 0px #ddd;
 	cursor: pointer;
+	opacity: 0.0;
 	
 }
 
@@ -298,6 +299,7 @@ input[type=range]:focus {
 	height: auto;
 	position: relative;
 	top: 0px;
+	opacity: 0.0;
 	
 }
 
@@ -322,7 +324,7 @@ input[type=range]:focus {
 	display: inline;
 	outline: none;
 	font-family: 'Oswald', sans-serif;
-	width: 177px;
+	width: 174px;
 	font-size: 15px;
 	box-shadow: 0px 4px 3px #333;
 	
@@ -349,7 +351,7 @@ input[type=range]:focus {
 
 .rating {
 	
-	width: 867px;
+	width: 860px;
 	height: 30px;
 	vertical-align: middle;
 	

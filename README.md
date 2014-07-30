@@ -4,7 +4,7 @@
 
 A job search web application.  
 
-Dependencies include Node.js and MongoDB.  
+Dependencies include [Node.js](https://github.com/joyent/node), [Mustache.js](https://github.com/janl/mustache.js/), and [MongoDB[(https://github.com/mongodb/mongo).  
 
 To run:  
 `$ node ./source/server.js`  

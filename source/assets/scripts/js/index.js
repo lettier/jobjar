@@ -6,16 +6,11 @@
 
 $( document ).ready ( function ( ) {
 	
-	var job_objects    = $( "[job]" );	
-	var number_of_jobs = job_objects.length;
-	
-	var modifying_job = -1;
-	
-	var job_status_options = [ "Resume Submitted", "Phone Screen", "Code Screen", "In-person Interview", "Offer", "Hired" ];
-	
+	var job_objects             = $( "[job]" );	
+	var number_of_jobs          = job_objects.length;	
+	var sorted_by_rating        = false;	
+	var job_status_options      = [ "Resume Submitted", "Phone Screen", "Code Screen", "In-person Interview", "Offer", "Hired" ];	
 	var job_status_options_html = "";
-	
-	var sorted_by_rating = false;
 	
 	for ( var i = 0; i < job_status_options.length; ++ i )
 	{
@@ -43,137 +38,136 @@ $( document ).ready ( function ( ) {
 
 	$( "#logo_text" ).click( function ( ) {
 		
-		$( "html, body" ).animate( {
-			
-			scrollTop: 0
-				
-		}, 1000 );
+		$( "html, body" ).animate( { scrollTop: 0 }, 1000 );
 		
 	} );
 	
 	function add_blank_job( )
 	{
 		
-		var i = number_of_jobs + 1;
+		var template_values = { 
 		
-		var time_in_ms = Date.now( );
+			job_number:                 number_of_jobs + 1,
+			job_number_minimized_class: "",
+			job_form_minimized_class:   "",
+			company_name:               "",
+			position_title:             "",
+			applied_via:                "",
+			job_link:                   "",
+			job_status_options:         job_status_options_html,
+			contact_name:               "",
+			contact_email:              "",
+			contact_phone:              "",
+			job_street:                 "",
+			job_city:                   "",
+			notes:                      "",
+			rating_value:               "100",
+			time_in_ms:                 Date.now( ),
+			db_job_status:              "New",
+			time_difference:            "0 Days 0 Hours 0 Minutes 0 Seconds"
 		
-		$( ".container" ).append( 
-
-			'<div class="row">' +
-				'<div class="column">' +
-					'<div class="job_number" id="job_number_' + i + '" title="Collapse.">' +
-						i +
-					'</div>' +
-				'</div>' +
-				'<div class="column">' +
-					'<form     class="job_form" job="' + i + '">' +
-						'<input    class="input_box company_name"   name="company_name"   type="text" placeholder="Company Name"   value="">' +
-						'<input    class="input_box position_title" name="position_title" type="text" placeholder="Position Title" value="">' +
-						'<input    class="input_box applied_via"    name="applied_via"    type="text" placeholder="Applied Via"    value="">' +
-						'<input    class="input_box job_link"       name="job_link"       type="url"  placeholder="Job Link"       value="">' +
-						'<div class="custom_select">' +
-						'<select   class="input_box db_job_status"  name="job_status">' +
-						job_status_options_html +
-						'</select>' +
-						'</div>' +			
-						'<br>' +
-						'<input    class="input_box contact_name"   name="contact_name"   type="text"  placeholder="Contact Name"   value="">' +
-						'<input    class="input_box contact_email"  name="contact_email"  type="email" placeholder="Contact Email"  value="">' +
-						'<input    class="input_box contact_phone"  name="contact_phone"  type="tel"   placeholder="Contact Phone"  value="" pattern="\(\d\d\d\) ?\d\d\d-\d\d\d\d">' +
-						'<input    class="input_box contact_street" name="job_street"     type="text"  placeholder="Job Street"     value="">' +
-						'<input    class="input_box contact_city"   name="job_city"       type="text"  placeholder="Job City"       value="">' +
-						'<br>' +
-						'<textarea class="input_box notes"          name="notes" placeholder="Notes"></textarea>' +
-						'<span     class="star">&starf;</span>' +
-						'<input    class="input_box rating"         name="rating" type="range" title="Rating" value="100">'  +
-						'<span     class="input_box rating_reading">' + 100 + '</span>' +
-						'<input                                     name="time_entered" type="hidden" value="' + time_in_ms + '">' +
-						'<span     class="status">New.</span>' +
-						'<span     class="date">0 Days 0 Hours 0 Minutes 0 Seconds</span>' +
-					'</form>' +
-				'</div>' +
-			'</div>'
+		};
 		
-		);
-		
-		job_objects = $( "[job]" );
-		
-		number_of_jobs = job_objects.length;
-		
-		var job_number = number_of_jobs;
-		
-		$( "[job='" + job_number + "']" ).on( "click", update_job );
-		
-		$( "[job='" + job_number + "']" ).children( "[name='rating']" ).on( "mousemove", function ( ) {
+		$.get('assets/templates/job.mst', function( template ) {			
 			
-			var value = $( this ).val( ).toString( );
+			var rendered_html = Mustache.render( template, template_values );
 			
-			switch ( value.length )
-			{
+			$( ".container" ).append( rendered_html );
+			
+			job_objects = $( "[job]" );
+			
+			number_of_jobs = job_objects.length;
+			
+			var job_number = number_of_jobs;
+			
+			$( "[job='" + job_number + "']" ).on( "click", update_job );
+			
+			$( "[job='" + job_number + "']" ).children( "[name='rating']" ).on( "mousemove", function ( ) {
 				
-				case 1:
+				var value = $( this ).val( ).toString( );
+				
+				switch ( value.length )
+				{
 					
-					value = "00" + value;
-					break;
-					
-				case 2: 
-					
-					value = "0" + value;
-					break;
-					
-				default:
-					
-					break;
-					
-			}
+					case 1:
+						
+						value = "00" + value;
+						break;
+						
+					case 2: 
+						
+						value = "0" + value;
+						break;
+						
+					default:
+						
+						break;
+						
+				}
+				
+				$( "[job='" + job_number + "']" ).children( ".rating_reading" ).html( value );
+				
+			} );
 			
-			$( "[job='" + job_number + "']" ).children( ".rating_reading" ).html( value );
+			$( "#job_number_" + template_values[ "job_number" ] ).on( "click", function ( ) {
+				
+				
+				if ( $( "[job='" + template_values[ "job_number" ] + "']" ).hasClass( "job_form_min" ) === true )
+				{
+					
+					$( "[job='" + template_values[ "job_number" ] + "']" ).removeClass( "job_form_min" );
+					
+					$( "#job_number_" + template_values[ "job_number" ] ).removeClass( "job_number_min" );
+					
+					$( "#job_number_" + template_values[ "job_number" ] ).attr( "title", "Collapse." );
+					
+				}
+				else
+				{
+					
+					$( "[job='" + template_values[ "job_number" ] + "']" ).addClass( "job_form_min" );
+					
+					$( "#job_number_" + template_values[ "job_number" ] ).addClass( "job_number_min" );
+					
+					$( "#job_number_" + template_values[ "job_number" ] ).attr( "title", "Expand." );
+					
+				}
+				
+			} );
+			
+			$( "#db_status" ).html( "" );
+			
+			$( "html, body" ).animate( {
+				
+				scrollTop: $( "[job='" + number_of_jobs + "']" ).offset( ).top
+				
+			}, 1000 );
+			
+			$( "[job='" + template_values[ "job_number" ] + "']" ).animate( { opacity: 1.0 }, 2000 );
+			
+			$( "#job_number_" + template_values[ "job_number" ] ).animate( { opacity: 1.0 }, 2000 );
 			
 		} );
 		
-		$( "#job_number_" + i ).on( "click", function ( ) {
-			
-			
-			if ( $( "[job='" + i + "']" ).hasClass( "job_form_min" ) === true )
-			{
-				
-				$( "[job='" + i + "']" ).removeClass( "job_form_min" );
-				
-				$( "#job_number_" + i ).removeClass( "job_number_min" );
-				
-				$( "#job_number_" + i ).attr( "title", "Collapse." );
-				
-			}
-			else
-			{
-				
-				$( "[job='" + i + "']" ).addClass( "job_form_min" );
-				
-				$( "#job_number_" + i ).addClass( "job_number_min" );
-				
-				$( "#job_number_" + i ).attr( "title", "Expand." );
-				
-			}
-			
-		} );
-		
-		$( "#db_status" ).html( "" );
-		
-		$( "html, body" ).animate( {
-			
-			scrollTop: $( "[job='" + number_of_jobs + "']" ).offset( ).top
-			
-		}, 2000 );
-		
-	};
+	}
 	
-	function add_job( job )
+	function add_jobs( jobs )
 	{
+		
+		if ( jobs.length == 0 )
+		{
+			
+			return false;
+			
+		}
+		
+		var job = jobs.shift( );		
 		
 		var selected = 0;
 		
-		for ( var i = 0; i < job_status_options.length; ++i )
+		var i = 0;
+		
+		for ( i = 0; i < job_status_options.length; ++i )
 		{
 			
 			if ( job[ "job_status" ] === job_status_options[ i ] )
@@ -228,104 +222,104 @@ $( document ).ready ( function ( ) {
 		
 		var time_difference_string = get_time_difference_string( parseInt( job[ "time_entered" ], 10 ) );
 		
-		$( ".container" ).append( 
+		var template_values = { 
 		
-			'<div class="row">' +
-				'<div class="column">' +
-				'<div class="job_number job_number_min" id="job_number_' + job[ "number" ] + '" title="Expand.">' +
-						job[ "number" ] +
-					'</div>' +
-				'</div>' +
-				'<div class="column">' +
-					'<form class="job_form job_form_min" job="' + job[ "number" ] + '">' +
-						'<input    class="input_box company_name"   name="company_name"   type="text" placeholder="Company Name"   value="' + job[ "company_name" ] + '">' +
-						'<input    class="input_box position_title" name="position_title" type="text" placeholder="Position Title" value="' + job[ "position_title" ] + '">' +
-						'<input    class="input_box applied_via"    name="applied_via"    type="text" placeholder="Applied Via"    value="' + job[ "applied_via" ] + '">' +
-						'<input    class="input_box job_link"       name="job_link"       type="url"  placeholder="Job Link"       value="' + job[ "job_link" ] + '">' +
-						'<div class="custom_select">' +
-						'<select   class="input_box db_job_status"  name="job_status">' +
-						job_status_options_html +
-						'</select>' +
-						'</div>' +
-						'<br>' +
-						'<input    class="input_box contact_name"   name="contact_name"   type="text"  placeholder="Contact Name"   value="' + job[ "contact_name" ] + '">' +
-						'<input    class="input_box contact_email"  name="contact_email"  type="email" placeholder="Contact Email"  value="' + job[ "contact_email" ] + '">' +
-						'<input    class="input_box contact_phone"  name="contact_phone"  type="tel"   placeholder="Contact Phone"  value="' + job[ "contact_phone" ] + '" pattern="\(\d\d\d\) ?\d\d\d-\d\d\d\d">' +
-						'<input    class="input_box contact_street" name="job_street" type="text"      placeholder="Job Street"     value="' + job[ "job_street" ] + '">' +
-						'<input    class="input_box contact_city"   name="job_city"   type="text"      placeholder="Job City"       value="' + job[ "job_city" ] + '">' +
-						'<br>' +
-						'<textarea class="input_box notes"          name="notes" placeholder="Notes">' + job[ "notes" ] + '</textarea>' +
-						'<span     class="star">&starf;</span>' +
-						'<input    class="input_box rating"         name="rating" type="range" title="Rating" value="' + job[ "rating" ] + '">' +
-						'<span     class="input_box rating_reading">' + job[ "rating" ] + '</span>' +
-						'<input                                     name="time_entered" type="hidden" value="' + job[ "time_entered" ] + '">'   +
-						'<span     class="status">Saved.</span>' +
-						'<span     class="date">' + time_difference_string + "</span>" +
-					'</form>' +
-				'</div>' +
-			'</div>'
+			job_number:                 job[ "number" ],
+			job_number_minimized_class: "job_number_min",
+			job_form_minimized_class:   "job_form_min",
+			company_name:               job[ "company_name" ],
+			position_title:             job[ "position_title" ],
+			applied_via:                job[ "applied_via" ],
+			job_link:                   job[ "job_link" ],
+			job_status_options:         job_status_options_html,
+			contact_name:               job[ "contact_name" ],
+			contact_email:              job[ "contact_email" ],
+			contact_phone:              job[ "contact_phone" ],
+			job_street:                 job[ "job_street" ],
+			job_city:                   job[ "job_city" ],
+			notes:                      job[ "notes" ],
+			rating_value:               job[ "rating" ],
+			time_in_ms:                 job[ "time_entered" ],
+			db_job_status:              "Saved",
+			time_difference:            time_difference_string
 		
-		);
+		};
 		
-		job_objects = $( "[job]" );
-		
-		number_of_jobs = job_objects.length;
-		
-		$( "[job='" + job[ "number" ] + "']" ).on( "click", update_job );
-		
-		$( "[job='" + job[ "number" ] + "']" ).children( "[name='rating']" ).on( "mousemove", function ( ) {
+		$.get('assets/templates/job.mst', function( template ) {			
 			
-			var value = $( this ).val( ).toString( );
+			var rendered_html = Mustache.render( template, template_values );
 			
-			switch ( value.length )
-			{
+			$( ".container" ).append( rendered_html );
+		
+			job_objects = $( "[job]" );
+			
+			number_of_jobs = job_objects.length;
+			
+			$( "#total_jobs" ).html( number_of_jobs.toString( ) );
+			
+			$( "[job='" + job[ "number" ] + "']" ).on( "click", update_job );
+			
+			$( "[job='" + job[ "number" ] + "']" ).children( "[name='rating']" ).on( "mousemove", function ( ) {
 				
-				case 1:
+				var value = $( this ).val( ).toString( );
+				
+				switch ( value.length )
+				{
 					
-					value = "00" + value;
-					break;
-					
-				case 2: 
-					
-					value = "0" + value;
-					break;
-					
-				default:
-					
-					break;
-					
-			}
+					case 1:
+						
+						value = "00" + value;
+						break;
+						
+					case 2: 
+						
+						value = "0" + value;
+						break;
+						
+					default:
+						
+						break;
+						
+				}
+				
+				$( "[job='" + job[ "number" ] + "']" ).children( ".rating_reading" ).html( value );
+				
+			} );
 			
-			$( "[job='" + job[ "number" ] + "']" ).children( ".rating_reading" ).html( value );
+			$( "#job_number_" + job[ "number" ] ).on( "click", function ( ) {
+				
+				
+				if ( $( "[job='" + job[ "number" ] + "']" ).hasClass( "job_form_min" ) === true )
+				{
+
+					$( "[job='" + job[ "number" ] + "']" ).removeClass( "job_form_min" );
+					
+					$( "#job_number_" + job[ "number" ] ).removeClass( "job_number_min" );
+					
+					$( "#job_number_" + job[ "number" ] ).attr( "title", "Collapse." );
+					
+				}
+				else
+				{
+					
+					$( "[job='" + job[ "number" ] + "']" ).addClass( "job_form_min" );
+					
+					$( "#job_number_" + job[ "number" ] ).addClass( "job_number_min" );
+					
+					$( "#job_number_" + job[ "number" ] ).attr( "title", "Expand." );
+					
+				}
+				
+			} );
+			
+			$( "[job='" + job[ "number" ] + "']" ).animate( { opacity: 1.0 }, 1000 );
+			
+			$( "#job_number_" + job[ "number" ] ).animate( { opacity: 1.0 }, 1000 );
+
+			add_jobs( jobs );
 			
 		} );
 		
-		$( "#job_number_" + job[ "number" ] ).on( "click", function ( ) {
-			
-			
-			if ( $( "[job='" + job[ "number" ] + "']" ).hasClass( "job_form_min" ) === true )
-			{
-
-				$( "[job='" + job[ "number" ] + "']" ).removeClass( "job_form_min" );
-				
-				$( "#job_number_" + job[ "number" ] ).removeClass( "job_number_min" );
-				
-				$( "#job_number_" + job[ "number" ] ).attr( "title", "Collapse." );
-				
-			}
-			else
-			{
-				
-				$( "[job='" + job[ "number" ] + "']" ).addClass( "job_form_min" );
-				
-				$( "#job_number_" + job[ "number" ] ).addClass( "job_number_min" );
-				
-				$( "#job_number_" + job[ "number" ] ).attr( "title", "Expand." );
-				
-			}
-			
-		} );			
-			
 	}
 	
 	function update_job( )
@@ -414,16 +408,9 @@ $( document ).ready ( function ( ) {
 				
 					data = JSON.parse( data ); 
 					
-					for ( var i = 0; i < data.length; ++i )
-					{
-						
-						add_job( data[ i ] );
-						
-					}
+					add_jobs( data );
 					
 					$( "#db_status" ).html( "" );
-					
-					$( "#total_jobs" ).html( number_of_jobs.toString( ) );
 					
 				}
 				
@@ -483,16 +470,11 @@ $( document ).ready ( function ( ) {
 					
 				}
 				else 
-				{					
+				{
 					
 					data = JSON.parse( data ); 
 					
-					for ( var i = 0; i < data.length; ++i )
-					{
-						
-						add_job( data[ i ] );
-						
-					}
+					add_jobs( data );
 					
 					$( "#db_status" ).html( "" );
 					

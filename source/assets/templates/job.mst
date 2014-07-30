@@ -1,0 +1,34 @@
+<div class="row">
+	<div class="column"> 
+		<div class="job_number {{job_number_minimized_class}}" id="job_number_{{job_number}}" title="Collapse."> 
+			{{job_number}} 
+		</div> 
+	</div> 
+	<div class="column"> 
+		<form class="job_form {{job_form_minimized_class}}" job="{{job_number}}"> 
+			<input    class="input_box company_name"   name="company_name"   type="text" placeholder="Company Name"   value="{{company_name}}"> 
+			<input    class="input_box position_title" name="position_title" type="text" placeholder="Position Title" value="{{position_title}}"> 
+			<input    class="input_box applied_via"    name="applied_via"    type="text" placeholder="Applied Via"    value="{{applied_via}}"> 
+			<input    class="input_box job_link"       name="job_link"       type="url"  placeholder="Job Link"       value="{{job_link}}"> 
+			<div class="custom_select"> 
+				<select class="input_box job_status"  name="job_status"> 
+					{{{job_status_options}}} 
+				</select> 
+			</div> 			
+			<br> 
+			<input    class="input_box contact_name"   name="contact_name"   type="text"  placeholder="Contact Name"   value="{{contact_name}}"> 
+			<input    class="input_box contact_email"  name="contact_email"  type="email" placeholder="Contact Email"  value="{{contact_email}}"> 
+			<input    class="input_box contact_phone"  name="contact_phone"  type="tel"   placeholder="Contact Phone"  value="{{contact_phone}}" pattern="\(\d\d\d\) ?\d\d\d-\d\d\d\d"> 
+			<input    class="input_box contact_street" name="job_street"     type="text"  placeholder="Job Street"     value="{{job_street}}"> 
+			<input    class="input_box contact_city"   name="job_city"       type="text"  placeholder="Job City"       value="{{job_city}}"> 
+			<br> 
+			<textarea class="input_box notes"          name="notes" placeholder="Notes">{{notes}}</textarea> 
+			<span     class="star">&#9733;</span> 
+			<input    class="input_box rating"         name="rating" type="range" title="Rating" value="{{rating_value}}">  
+			<span     class="input_box rating_reading">{{rating_value}}</span> 
+			<input                                     name="time_entered" type="hidden" value="{{time_in_ms}}"> 
+			<span     class="status">{{db_job_status}}</span> 
+			<span     class="date">{{time_difference}}</span> 
+		</form> 
+	</div> 
+</div>
