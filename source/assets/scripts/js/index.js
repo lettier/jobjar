@@ -8,11 +8,13 @@ $( document ).ready ( function ( ) {
 	
 	var job_objects             = $( "[job]" );	
 	var number_of_jobs          = job_objects.length;	
-	var sorted_by_rating        = false;	
+	var sorted_by_rating        = false;
+	var sorted_by_age           = false;
 	var job_status_options      = [ "Resume Submitted", "Phone Screen", "Code Screen", "In-person Interview", "Offer", "Hired" ];	
 	var job_status_options_html = "";
+	var i;
 	
-	for ( var i = 0; i < job_status_options.length; ++ i )
+	for ( i = 0; i < job_status_options.length; ++ i )
 	{
 		
 		job_status_options_html += "<option>" + job_status_options[ i ] + "</option>";
@@ -68,7 +70,9 @@ $( document ).ready ( function ( ) {
 		
 		};
 		
-		$.get('assets/templates/job.mst', function( template ) {			
+		$( "#add_new" ).removeClass( "beat" );
+		
+		$.get( "assets/templates/job.mst", function( template ) {			
 			
 			var rendered_html = Mustache.render( template, template_values );
 			
@@ -165,7 +169,7 @@ $( document ).ready ( function ( ) {
 		
 		var selected = 0;
 		
-		var i = 0;
+		var i;
 		
 		for ( i = 0; i < job_status_options.length; ++i )
 		{
@@ -245,7 +249,7 @@ $( document ).ready ( function ( ) {
 		
 		};
 		
-		$.get('assets/templates/job.mst', function( template ) {			
+		$.get( "assets/templates/job.mst", function( template ) {			
 			
 			var rendered_html = Mustache.render( template, template_values );
 			
@@ -383,24 +387,9 @@ $( document ).ready ( function ( ) {
 				if ( data == "" )
 				{
 					
-					$( "#db_status" ).html( "Add a job." );
-					
-					$( "#add_new" ).animate( {
+					$( "#db_status" ).html( "Add a job. &#8599;" );
 						
-						marginRight: "200px"
-						
-					},
-					1000,
-					function ( ) {
-						
-						$( "#add_new" ).animate( {
-							
-							marginRight: "20px"
-							
-						},
-						1000 );
-						
-					} );
+					$( "#add_new" ).addClass( "beat" );
 					
 				}
 				else 
@@ -425,7 +414,7 @@ $( document ).ready ( function ( ) {
 		
 	}
 	
-	function get_jobs_by_rating( )
+	function get_jobs_sorted( field )
 	{
 		
 		$( "#db_status" ).html( "Getting job data..." );
@@ -434,7 +423,7 @@ $( document ).ready ( function ( ) {
 		
 		var data = { 
 			
-			"field": "rating",
+			"field": field,
 			"order": -1
 			
 		}
@@ -450,23 +439,6 @@ $( document ).ready ( function ( ) {
 				{
 					
 					$( "#db_status" ).html( "Add a job." );
-					
-					$( "#add_new" ).animate( {
-						
-						marginRight: "200px"
-						
-					},
-					1000,
-					function ( ) {
-						
-						$( "#add_new" ).animate( {
-							
-							marginRight: "20px"
-							
-						},
-						1000 );
-						
-					} );
 					
 				}
 				else 
@@ -497,10 +469,14 @@ $( document ).ready ( function ( ) {
 	
 	$( "#sort_rating" ).on( "click", function ( ) {
 		
+		sorted_by_age = false;
+		
+		$( "#sort_age" ).attr( "title", "Sort by age." );
+		
 		if ( sorted_by_rating === false )
 		{
 		
-			get_jobs_by_rating( );
+			get_jobs_sorted( "rating" );
 			
 			sorted_by_rating = true;
 			
@@ -515,6 +491,35 @@ $( document ).ready ( function ( ) {
 			sorted_by_rating = false;
 			
 			$( "#sort_rating" ).attr( "title", "Sort by rating." );
+			
+		}	
+		
+	} );
+	
+	$( "#sort_age" ).on( "click", function ( ) {
+		
+		sorted_by_rating = false;
+		
+		$( "#sort_rating" ).attr( "title", "Sort by rating." );
+		
+		if ( sorted_by_age === false )
+		{
+			
+			get_jobs_sorted( "time_entered" );
+			
+			sorted_by_age = true;
+			
+			$( "#sort_age" ).attr( "title", "Unsort by age." );
+			
+		}			
+		else if ( sorted_by_age === true )
+		{
+			
+			get_jobs( );
+			
+			sorted_by_age = false;
+			
+			$( "#sort_age" ).attr( "title", "Sort by age." );
 			
 		}	
 		
