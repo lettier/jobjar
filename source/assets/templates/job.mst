@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="column"> 
-		<div class="job_number {{job_number_minimized_class}}" id="job_number_{{job_number}}" title="Collapse."> 
+		<div class="job_number {{job_number_minimized_class}}" id="job_number_{{job_number}}" title="{{job_number_title}}."> 
 			{{job_number}} 
 		</div> 
 	</div> 
@@ -11,8 +11,10 @@
 			<input    class="input_box applied_via"    name="applied_via"    type="text" placeholder="Applied Via"    value="{{applied_via}}"> 
 			<input    class="input_box job_link"       name="job_link"       type="url"  placeholder="Job Link"       value="{{job_link}}"> 
 			<div class="custom_select"> 
-				<select class="input_box job_status"  name="job_status"> 
-					{{{job_status_options}}} 
+				<select class="input_box job_status" name="job_status">				
+					{{#job_status_options}}
+					<option value="{{value}}" {{#selected}}selected{{/selected}}>{{value}}</option>
+					{{/job_status_options}}
 				</select> 
 			</div> 			
 			<br> 

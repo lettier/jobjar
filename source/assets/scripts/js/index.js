@@ -10,16 +10,15 @@ $( document ).ready ( function ( ) {
 	var number_of_jobs          = job_objects.length;	
 	var sorted_by_rating        = false;
 	var sorted_by_age           = false;
-	var job_status_options      = [ "Resume Submitted", "Phone Screen", "Code Screen", "In-person Interview", "Offer", "Hired" ];	
-	var job_status_options_html = "";
-	var i;
+	var job_status_options      = [ 
 	
-	for ( i = 0; i < job_status_options.length; ++ i )
-	{
-		
-		job_status_options_html += "<option>" + job_status_options[ i ] + "</option>";
-		
-	}
+		{ value: "Resume Submitted",    selected: false },
+		{ value: "Phone Screen",        selected: false },
+		{ value: "Code Screen",         selected: false },
+		{ value: "In-person Interview", selected: false },
+		{ value: "Offer",               selected: false },
+		{ value: "Hired",               selected: false }
+	];	
 	
 	$( window ).scroll( function( ) {
 		
@@ -50,13 +49,14 @@ $( document ).ready ( function ( ) {
 		var template_values = { 
 		
 			job_number:                 number_of_jobs + 1,
+		        job_number_title:           "Collapse",
 			job_number_minimized_class: "",
 			job_form_minimized_class:   "",
 			company_name:               "",
 			position_title:             "",
 			applied_via:                "",
 			job_link:                   "",
-			job_status_options:         job_status_options_html,
+			job_status_options:         job_status_options,
 			contact_name:               "",
 			contact_email:              "",
 			contact_phone:              "",
@@ -88,28 +88,7 @@ $( document ).ready ( function ( ) {
 			
 			$( "[job='" + job_number + "']" ).children( "[name='rating']" ).on( "mousemove", function ( ) {
 				
-				var value = $( this ).val( ).toString( );
-				
-				switch ( value.length )
-				{
-					
-					case 1:
-						
-						value = "00" + value;
-						break;
-						
-					case 2: 
-						
-						value = "0" + value;
-						break;
-						
-					default:
-						
-						break;
-						
-				}
-				
-				$( "[job='" + job_number + "']" ).children( ".rating_reading" ).html( value );
+				$( "[job='" + job_number + "']" ).children( ".rating_reading" ).html( pad_with_zeros( $( this ).val( ).toString( ) ) );
 				
 			} );
 			
@@ -119,21 +98,69 @@ $( document ).ready ( function ( ) {
 				if ( $( "[job='" + template_values[ "job_number" ] + "']" ).hasClass( "job_form_min" ) === true )
 				{
 					
-					$( "[job='" + template_values[ "job_number" ] + "']" ).removeClass( "job_form_min" );
+					$( "[job='" + template_values[ "job_number" ] + "']" ).animate( {
+						
+						height: "362px"
+						
+					},
+					500,
+					function ( ) {
+						
+						$( "[job='" + template_values[ "job_number" ] + "']" ).removeClass( "job_form_min" );
+						
+						$( "[job='" + template_values[ "job_number" ] + "']" ).css( "height", "" );						
+						
+					} );
 					
-					$( "#job_number_" + template_values[ "job_number" ] ).removeClass( "job_number_min" );
-					
-					$( "#job_number_" + template_values[ "job_number" ] ).attr( "title", "Collapse." );
+					$( "#job_number_" + template_values[ "job_number" ] ).animate( {
+						
+						fontSize: "300px"
+						
+					},
+					500,
+					function ( ) {
+						
+						$( "#job_number_" + template_values[ "job_number" ] ).removeClass( "job_number_min" );
+						
+						$( "#job_number_" + template_values[ "job_number" ] ).css( "font-size", "" );
+						
+						$( "#job_number_" + template_values[ "job_number" ] ).attr( "title", "Collapse." );
+						
+					} );
 					
 				}
 				else
-				{
+				{	
 					
-					$( "[job='" + template_values[ "job_number" ] + "']" ).addClass( "job_form_min" );
+					$( "[job='" + template_values[ "job_number" ] + "']" ).animate( {
+						
+						height: "64px"
+						
+					},
+					500,
+					function ( ) {
+						
+						$( "[job='" + template_values[ "job_number" ] + "']" ).addClass( "job_form_min" );
+						
+						$( "[job='" + template_values[ "job_number" ] + "']" ).css( "height", "" );						
+						
+					} );
 					
-					$( "#job_number_" + template_values[ "job_number" ] ).addClass( "job_number_min" );
-					
-					$( "#job_number_" + template_values[ "job_number" ] ).attr( "title", "Expand." );
+					$( "#job_number_" + template_values[ "job_number" ] ).animate( {
+						
+						fontSize: "110px"
+						
+					},
+					500,
+					function ( ) {
+						
+						$( "#job_number_" + template_values[ "job_number" ] ).addClass( "job_number_min" );
+						
+						$( "#job_number_" + template_values[ "job_number" ] ).css( "font-size", "" );
+						
+						$( "#job_number_" + template_values[ "job_number" ] ).attr( "title", "Expand." );
+						
+					} );
 					
 				}
 				
@@ -165,77 +192,23 @@ $( document ).ready ( function ( ) {
 			
 		}
 		
-		var job = jobs.shift( );		
-		
-		var selected = 0;
-		
-		var i;
-		
-		for ( i = 0; i < job_status_options.length; ++i )
-		{
-			
-			if ( job[ "job_status" ] === job_status_options[ i ] )
-			{
-				
-				selected = i;
-				
-				break;
-				
-			}
-			
-		}
-		
-		var job_status_options_html = "";
-		
-		for ( i = 0; i < job_status_options.length; ++i )
-		{
-			
-			if ( i === selected )
-			{
-				
-				job_status_options_html += "<option selected>" + job_status_options[ i ] + "</option>";
-				
-			}
-			else
-			{
-			
-				job_status_options_html += "<option>" + job_status_options[ i ] + "</option>";
-				
-			}
-			
-		} 
-		
-		switch ( job[ "rating" ].toString( ).length )
-		{
-			
-			case 1:
-				
-				job[ "rating" ] = "00" + job[ "rating" ];
-				break;
-				
-			case 2: 
-				
-				job[ "rating" ] = "0" + job[ "rating" ];
-				break;
-				
-			default:
-				
-				break;
-				
-		}
+		var job = jobs.shift( );
 		
 		var time_difference_string = get_time_difference_string( parseInt( job[ "time_entered" ], 10 ) );
+
+		job[ "rating" ] = pad_with_zeros( job[ "rating" ].toString( ) );		
 		
 		var template_values = { 
 		
 			job_number:                 job[ "number" ],
+		        job_number_title:           "Expand",
 			job_number_minimized_class: "job_number_min",
 			job_form_minimized_class:   "job_form_min",
 			company_name:               job[ "company_name" ],
 			position_title:             job[ "position_title" ],
 			applied_via:                job[ "applied_via" ],
 			job_link:                   job[ "job_link" ],
-			job_status_options:         job_status_options_html,
+			job_status_options:         job_status_options,
 			contact_name:               job[ "contact_name" ],
 			contact_email:              job[ "contact_email" ],
 			contact_phone:              job[ "contact_phone" ],
@@ -261,32 +234,14 @@ $( document ).ready ( function ( ) {
 			
 			$( "#total_jobs" ).html( number_of_jobs.toString( ) );
 			
+			$( "[job='" + job[ "number" ] + "']" ).children( ".custom_select" ).children( "[name='job_status']" ).val( job[ "job_status" ] );
+			
 			$( "[job='" + job[ "number" ] + "']" ).on( "click", update_job );
 			
 			$( "[job='" + job[ "number" ] + "']" ).children( "[name='rating']" ).on( "mousemove", function ( ) {
 				
-				var value = $( this ).val( ).toString( );
 				
-				switch ( value.length )
-				{
-					
-					case 1:
-						
-						value = "00" + value;
-						break;
-						
-					case 2: 
-						
-						value = "0" + value;
-						break;
-						
-					default:
-						
-						break;
-						
-				}
-				
-				$( "[job='" + job[ "number" ] + "']" ).children( ".rating_reading" ).html( value );
+				$( "[job='" + job[ "number" ] + "']" ).children( ".rating_reading" ).html( pad_with_zeros( $( this ).val( ).toString( ) ) );
 				
 			} );
 			
@@ -295,22 +250,70 @@ $( document ).ready ( function ( ) {
 				
 				if ( $( "[job='" + job[ "number" ] + "']" ).hasClass( "job_form_min" ) === true )
 				{
+					
+					$( "[job='" + job[ "number" ] + "']" ).animate( {
+						
+						height: "362px"
+						
+					},
+					500,
+					function ( ) {
+						
+						$( "[job='" + job[ "number" ] + "']" ).removeClass( "job_form_min" );
 
-					$( "[job='" + job[ "number" ] + "']" ).removeClass( "job_form_min" );
+						$( "[job='" + job[ "number" ] + "']" ).css( "height", "" );						
+						
+					} );
 					
-					$( "#job_number_" + job[ "number" ] ).removeClass( "job_number_min" );
-					
-					$( "#job_number_" + job[ "number" ] ).attr( "title", "Collapse." );
+					$( "#job_number_" + job[ "number" ] ).animate( {
+						
+						fontSize: "300px"
+						
+					},
+					500,
+					function ( ) {
+						
+						$( "#job_number_" + job[ "number" ] ).removeClass( "job_number_min" );
+						
+						$( "#job_number_" + job[ "number" ] ).css( "font-size", "" );
+						
+						$( "#job_number_" + job[ "number" ] ).attr( "title", "Collapse." );
+						
+					} );
 					
 				}
 				else
 				{
 					
-					$( "[job='" + job[ "number" ] + "']" ).addClass( "job_form_min" );
+					$( "[job='" + job[ "number" ] + "']" ).animate( {
+						
+						height: "64px"
+						
+					},
+					500,
+					function ( ) {
+						
+						$( "[job='" + job[ "number" ] + "']" ).addClass( "job_form_min" );
+						
+						$( "[job='" + job[ "number" ] + "']" ).css( "height", "" );						
+						
+					} );
 					
-					$( "#job_number_" + job[ "number" ] ).addClass( "job_number_min" );
-					
-					$( "#job_number_" + job[ "number" ] ).attr( "title", "Expand." );
+					$( "#job_number_" + job[ "number" ] ).animate( {
+						
+						fontSize: "110px"
+						
+					},
+					500,
+					function ( ) {
+						
+						$( "#job_number_" + job[ "number" ] ).addClass( "job_number_min" );
+						
+						$( "#job_number_" + job[ "number" ] ).css( "font-size", "" );
+						
+						$( "#job_number_" + job[ "number" ] ).attr( "title", "Expand." );
+						
+					} );
 					
 				}
 				
@@ -553,5 +556,31 @@ function get_time_difference_string( milliseconds )
 	var time_difference_string = days + " Days " + hours + " Hours " + minutes + " Minutes " + seconds + " Seconds";
 	
 	return time_difference_string;
+	
+}
+
+function pad_with_zeros( text )
+{
+	
+	switch ( text.length )
+	{
+		
+		case 1:
+			
+			text = "00" + text;
+			break;
+			
+		case 2: 
+			
+			text = "0" + text;
+			break;
+			
+		default:
+			
+			break;
+			
+	}
+	
+	return text;
 	
 }

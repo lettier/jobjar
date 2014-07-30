@@ -22,7 +22,8 @@ var content_types = {
 	".css":  "text/css",
 	".js":   "text/javascript",
 	".txt":  "text/plain",
-	".ico":  "image/x-icon"
+	".ico":  "image/x-icon",
+	".mst":  "text/html"
 	
 };
 

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+nodemon server.js localhost 8888
