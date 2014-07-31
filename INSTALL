@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# David Lettier (C) 2014.
+#
+# Install the needed dependencies.
+
+echo "   ___       _       ___            "
+echo "  |_  |     | |     |_  |           "
+echo "    | | ___ | |__     | | __ _ _ __ "
+echo "    | |/ _ \| '_ \    | |/ \` | '__|"
+echo "/\__/ / (_) | |_) /\__/ / (_| | |   " 
+echo "\____/ \___/|_.__/\____/ \__,_|_|   "
+echo ""
+
+echo "---------------------------------------------------"
+echo "Installing mongojs..."
+echo "---------------------------------------------------"
+
+npm install mongojs
+
+echo "---------------------------------------------------"
+echo "Creating the dependencies directory..."
+echo "---------------------------------------------------"
+
+mkdir -p ./source/dependencies/
+
+echo "Done."
+
+echo "---------------------------------------------------"
+echo "Installing Mustache.js..."
+echo "---------------------------------------------------"
+
+wget -O ./source/dependencies/mustache.js https://raw.githubusercontent.com/janl/mustache.js/master/mustache.js

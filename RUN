@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# David Lettier (C) 2014.
+
+echo "   ___       _       ___            "
+echo "  |_  |     | |     |_  |           "
+echo "    | | ___ | |__     | | __ _ _ __ "
+echo "    | |/ _ \| '_ \    | |/ \` | '__|"
+echo "/\__/ / (_) | |_) /\__/ / (_| | |   " 
+echo "\____/ \___/|_.__/\____/ \__,_|_|   "
+echo ""
+
+nodemon ./source/server.js & 
+
+sleep 2 
+
+firefox http://localhost:8888 &

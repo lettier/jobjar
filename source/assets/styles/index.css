@@ -247,6 +247,27 @@ input[type=range]:focus {
 	
 }
 
+.shake {
+	
+	-moz-animation:           shake 0.2s linear;
+	-webkit-animation:        shake 0.2s linear;
+	-webkit-transform-origin: 80% 80%;
+	-moz-transform-origin:    80% 80%;
+	position: relative;
+	
+}
+
+@-moz-keyframes shake {
+	
+	0%   { left:  0px; }
+	25%  { left: -10px; }
+	50%  { left: 0px; }
+	51%  { left: 0px;  }
+	75%  { left: 10px; }
+	100% { left: 0px;  }
+	
+}
+
 .separator {
 
 	font-size: 30px;

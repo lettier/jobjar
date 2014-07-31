@@ -39,6 +39,21 @@ $( document ).ready ( function ( ) {
 		
 		number_of_jobs = job_objects.length;
 		
+		if ( $( ".db_job_status:contains('New.')" ).length > 0 )
+		{
+			
+			$( "#add_new" ).removeClass( "shake" );
+			
+			window.setTimeout( function ( ) {
+
+				$( "#add_new" ).addClass( "shake" );
+				
+			}, 100 );
+			
+			return false;
+			
+		}
+		
 		var template_values = { 
 		
 			job_number:                 number_of_jobs + 1,
