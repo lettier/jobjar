@@ -210,28 +210,30 @@ $( document ).ready ( function ( ) {
 		var job = jobs.shift( );
 		
 		var time_difference_string = get_time_difference_string( parseInt( job.time_entered, 10 ) );
+		
+		job.rating = job.rating || 0;
 
 		job.rating = pad_with_zeros( job.rating.toString( ) );		
 		
 		var template_values = { 
 		
-			job_number:                 job.number,
+			job_number:                 job.number || 0,
 		        job_number_title:           "Expand",
 			job_number_minimized_class: "job_number_min",
 			job_form_minimized_class:   "job_form_min",
-			company_name:               job.company_name,
-			position_title:             job.position_title,
-			applied_via:                job.applied_via,
-			job_link:                   job.job_link,
+			company_name:               job.company_name|| "",
+			position_title:             job.position_title || "",
+			applied_via:                job.applied_via || "",
+			job_link:                   job.job_link || "",
 			job_status_options:         job_status_options,
-			contact_name:               job.contact_name,
-			contact_email:              job.contact_email,
-			contact_phone:              job.contact_phone,
-			job_street:                 job.job_street,
-			job_city:                   job.job_city,
-			notes:                      job.notes,
-			rating_value:               job.rating,
-			time_in_ms:                 job.time_entered,
+			contact_name:               job.contact_name || "",
+			contact_email:              job.contact_email || "",
+			contact_phone:              job.contact_phone || "",
+			job_street:                 job.job_street || "",
+			job_city:                   job.job_city || "",
+			notes:                      job.notes || "",
+			rating_value:               job.rating || 0,
+			time_in_ms:                 job.time_entered || 0,
 			db_job_status:              "Saved.",
 			time_difference:            time_difference_string
 		
@@ -372,18 +374,29 @@ $( document ).ready ( function ( ) {
 			url: "/update",
 			data: JSON.stringify( data ),
 			success: function ( data ) {
+				
+				if ( data !== "" )
+				{
 			
-				$( "[job='" + job_number + "']" ).children( ".db_job_status" ).html( "Saved." );
-				
-				$( "[job='" + job_number + "']" ).children( ".date" ).html( time_difference_string );
-				
-				job_objects = $( "[job]" );
-				
-				number_of_jobs = job_objects.length;
-				
-				$( "#total_jobs" ).html( number_of_jobs.toString( ) );
-				
-				$( "#trash_can_" + job_number ).show( );
+					$( "[job='" + job_number + "']" ).children( ".db_job_status" ).html( "Saved." );
+					
+					$( "[job='" + job_number + "']" ).children( ".date" ).html( time_difference_string );
+					
+					job_objects = $( "[job]" );
+					
+					number_of_jobs = job_objects.length;
+					
+					$( "#total_jobs" ).html( number_of_jobs.toString( ) );
+					
+					$( "#trash_can_" + job_number ).show( );
+					
+				}
+				else
+				{
+					
+					$( "[job='" + job_number + "']" ).children( ".db_job_status" ).html( "Error." );
+					
+				}
 				
 			},
 			error: function ( data ) {

@@ -4,6 +4,7 @@
 #
 # Install the needed dependencies.
 
+echo ""
 echo "   ___       _       ___            "
 echo "  |_  |     | |     |_  |           "
 echo "    | | ___ | |__     | | __ _ _ __ "
@@ -12,22 +13,36 @@ echo "/\__/ / (_) | |_) /\__/ / (_| | |   "
 echo "\____/ \___/|_.__/\____/ \__,_|_|   "
 echo ""
 
+echo ""
 echo "---------------------------------------------------"
 echo "Installing mongojs..."
 echo "---------------------------------------------------"
+echo ""
 
 npm install mongojs
 
+echo ""
+echo "---------------------------------------------------"
+echo "Installing nodemon..."
+echo "---------------------------------------------------"
+echo ""
+
+npm install nodemon
+
+echo ""
 echo "---------------------------------------------------"
 echo "Creating the dependencies directory..."
 echo "---------------------------------------------------"
+echo ""
 
 mkdir -p ./source/dependencies/
 
 echo "Done."
 
+echo ""
 echo "---------------------------------------------------"
 echo "Installing Mustache.js..."
 echo "---------------------------------------------------"
+echo ""
 
 wget -O ./source/dependencies/mustache.js https://raw.githubusercontent.com/janl/mustache.js/master/mustache.js
