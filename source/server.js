@@ -10,7 +10,7 @@ var  url    = require( "url"     );
 var path    = require( "path"    );
 var mongojs = require( "mongojs" );
 
-var uri = "mongodb://localhost:27017/jobjartest";
+var uri = "mongodb://localhost:27017/jobjar";
 
 // Connect to the database and select the collection.
 
