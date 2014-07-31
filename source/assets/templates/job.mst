@@ -29,8 +29,11 @@
 			<input    class="input_box rating"         name="rating" type="range" title="Rating" value="{{rating_value}}">  
 			<span     class="input_box rating_reading">{{rating_value}}</span> 
 			<input                                     name="time_entered" type="hidden" value="{{time_in_ms}}"> 
-			<span     class="status">{{db_job_status}}</span> 
+			<span     class="db_job_status">{{db_job_status}}</span> 
 			<span     class="date">{{time_difference}}</span> 
 		</form> 
 	</div> 
+	<div class="column">
+		<span id="trash_can_{{job_number}}" class="icon-trash trash_can" title="Delete.">
+	</div>
 </div>

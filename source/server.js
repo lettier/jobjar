@@ -10,7 +10,7 @@ var  url    = require( "url"     );
 var path    = require( "path"    );
 var mongojs = require( "mongojs" );
 
-var uri = "mongodb://localhost:27017/jobjar";
+var uri = "mongodb://localhost:27017/jobjartest";
 
 // Connect to the database and select the collection.
 
@@ -97,7 +97,9 @@ function db_handler( request, response, uri )
 	
 	// An plain text response.
 	
-	response.writeHead( 200, { "Content-Type": "text/plain" } );	
+	response.writeHead( 200, { "Content-Type": "text/plain" } );
+
+	var body = "";
 	
 	if ( uri === "/all" )
 	{
@@ -135,58 +137,12 @@ function db_handler( request, response, uri )
 		} );
 		
 	}
-	else if ( uri === "/update" )
-	{
-		
-		// Gather the POST body.
-		
-		var body = "";
-		
-		request.on( "data", function ( data ) {
-			
-			body += data;
-			
-			// Avoid large POST bodies.
-			
-			if ( body.length > 1e6 )
-			{
-				
-				request.connection.destroy( );
-				
-			}
-			
-		} );
-		
-		request.on( "end", function ( ) {
-			
-			var data = JSON.parse( body );
-			
-			response.write( data[ "number" ] );
-			
-			data[ "rating" ] = parseInt( data[ "rating" ], 10 );
-			
-			data[ "number" ] = parseInt( data[ "number" ], 10 );
-			
-			data[ "time_entered" ] = parseInt( data[ "time_entered" ], 10 );
-			
-			db.jobs.update( { "number": data[ "number" ] }, data, { upsert: true }, function ( ) {
-				
-				console.log( "Database updated." );
-				
-				
-			} );
-			
-			response.end( );
-			
-		} );
-		
-	}
 	else if ( uri === "/sort" )
 	{
 		
 		// Gather the POST body.
 		
-		var body = "";
+		body = "";
 		
 		request.on( "data", function ( data ) {
 			
@@ -207,9 +163,20 @@ function db_handler( request, response, uri )
 			
 			var data = JSON.parse( body );
 			
+			if ( data.field === undefined )
+			{
+				
+				response.write( "" );
+				
+				response.end( );
+				
+				return false;
+				
+			}
+			
 			var sort_by = { };
 			
-			sort_by[ data[ "field" ] ] = parseInt( data[ "order" ], 10 );
+			sort_by[ data.field ] = parseInt( data.order, 10 );
 			
 			db.jobs.find( { } ).sort( sort_by, function ( error, records  ) {
 				
@@ -237,21 +204,103 @@ function db_handler( request, response, uri )
 		} );
 		
 	}
+	else if ( uri === "/update" )
+	{
+		
+		// Gather the POST body.
+		
+		body = "";
+		
+		request.on( "data", function ( data ) {
+			
+			body += data;
+			
+			// Avoid large POST bodies.
+			
+			if ( body.length > 1e6 )
+			{
+				
+				request.connection.destroy( );
+				
+			}
+			
+		} );
+		
+		request.on( "end", function ( ) {
+			
+			var data = JSON.parse( body );
+			
+			data.rating = parseInt( data.rating, 10 );
+			
+			data.number = parseInt( data.number, 10 );
+			
+			data.time_entered = parseInt( data.time_entered, 10 );
+			
+			db.jobs.update( { "number": data.number }, data, { upsert: true }, function ( ) {
+				
+				console.log( "Job " + data.number + " updated." );
+				
+				response.write( JSON.stringify( data ) );
+				
+				response.end( );
+				
+			} );
+			
+		} );
+		
+	}
+	else if ( uri === "/delete" )
+	{
+		
+		// Gather the POST body.
+		
+		body = "";
+		
+		request.on( "data", function ( data ) {
+			
+			body += data;
+			
+			// Avoid large POST bodies.
+			
+			if ( body.length > 1e6 )
+			{
+				
+				request.connection.destroy( );
+				
+			}
+			
+		} );
+		
+		request.on( "end", function ( ) {
+			
+			var data = JSON.parse( body );
+			
+			db.jobs.remove( { "number": data.number }, { justOne: true }, function (   ) {
+				
+				console.log( "Job " + data.number + " deleted." );
+				
+				db.jobs.update( { "number": { $gte: data.number } }, { $inc: { "number": -1 } }, { multi: true }, function ( ) {
+					
+					response.write( JSON.stringify( data ) );					
+					
+					response.end( );
+					
+				} );
+				
+			} );
+			
+		} );
+		
+	}	
 	
 }
 
-function server_handler( request, response, uri )
+function server_handler( request, response )
 {
 	
 	var uri = url.parse( request.url ).pathname;
 
 	if ( request.method === "POST" && uri === "/all" )
-	{
-		
-		db_handler( request, response, uri );
-		
-	}
-	else if ( request.method === "POST" && uri === "/update" ) 
 	{
 		
 		db_handler( request, response, uri );
@@ -263,6 +312,18 @@ function server_handler( request, response, uri )
 		db_handler( request, response, uri );
 		
 	}
+	else if ( request.method === "POST" && uri === "/update" ) 
+	{
+		
+		db_handler( request, response, uri );
+		
+	}
+	else if ( request.method === "POST" && uri === "/delete" ) 
+	{
+		
+		db_handler( request, response, uri );
+		
+	}	
 	else
 	{
 		
