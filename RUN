@@ -17,6 +17,10 @@ echo "Starting node..."
 echo "---------------------------------------------------"
 echo ""
 
+# CD to script path.
+
+cd ${0%/*}
+
 node ./node_modules/nodemon/bin/nodemon.js ./source/server.js & 
 
 sleep 2 
