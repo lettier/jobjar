@@ -25,7 +25,7 @@
 			<input    class="input_box contact_city"   name="job_city"       type="text"  placeholder="Job City"       value="{{job_city}}"> 
 			<br> 
 			<textarea class="input_box notes"          name="notes" placeholder="Notes">{{notes}}</textarea> 
-			<span     class="star">&#9733;</span> 
+			<span     class="icon-heart star"></span> 
 			<input    class="input_box rating"         name="rating" type="range" title="Rating" value="{{rating_value}}">  
 			<span     class="input_box rating_reading">{{rating_value}}</span> 
 			<input                                     name="time_entered" type="hidden" value="{{time_in_ms}}"> 

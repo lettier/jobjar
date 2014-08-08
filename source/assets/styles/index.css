@@ -13,8 +13,8 @@ body {
 	font-family: 'Oswald', sans-serif;
 	font-size: 20px;
 	overflow-x: hidden;
-	background: #404040;
-	color: #eee;
+	background: #2C3E50;
+	color: #ECF0F1;
 	
 }
 
@@ -37,7 +37,7 @@ input[type=range] {
 input[type=range]::-webkit-slider-runnable-track {
 	
 	height: 5px;
-	background: #546724;
+	background: #006FA3;
 	border: none;
 	border-radius: 3px;
 	
@@ -60,7 +60,7 @@ input[type=range]::-webkit-slider-thumb {
 input[type=range]::-moz-range-track {
 	
 	height: 5px;
-	background: #546724;
+	background: #006FA3;
 	border: none;
 	border-radius: 3px;
 	
@@ -88,18 +88,18 @@ input[type=range]:focus {
 
 ::-webkit-input-placeholder {
 	
-	color: #546724;
+	color: #006FA3;
 }
 
 ::-moz-placeholder {
 	
-	color: #546724;
+	color: #006FA3;
 	
 }
 
 :-ms-input-placeholder {
 	
-	color: #546724;
+	color: #006FA3;
 	
 }
 
@@ -107,25 +107,37 @@ input[type=range]:focus {
 	
 	display: inline;
 	line-height: 30px;
-	color: #f9f9f9;	
-	font-family: 'Lobster', cursive;
-	text-shadow: 0px 2px 0px #5b6d72, 0px 4px 3px #222;
+	color: #ECF0F1;
+	text-shadow: 0px 2px 0px #7F8C8D;
+	font-family: 'Source Code Pro', sans-serif;
 	cursor: pointer;
-	letter-spacing: -4px;
+	letter-spacing: -8px;
+	font-size: 65px;
+	margin-left: 10px;
+	position: relative;
+	top: 3px;
 	
 }
 
 #total_jobs {
 
-	display: inline;
+	display: inline-block;
 	line-height: 30px;
 	font-size: 40px;
-	margin-left: 0px;
+	margin-left: 20px;
 	vertical-align: bottom;
-	color: #36a8ca;	
-	text-shadow: 0px 3px 0px #19587b, 0px 4px 3px #222;
+	color: #ECF0F1;
+	text-shadow: 0px 2px 0px #7F8C8D;
 	position: relative;
-	top: -8px;
+	top: 2px;
+	background: #2C3E50;
+	padding: 10px;
+	padding-bottom: 13px;
+	border-top-left-radius: 5%;
+	border-top-right-radius: 5%;
+	border-bottom-left-radius: 20%;
+	border-bottom-right-radius: 20%;
+	box-shadow: 0px 2px 0px 0px #3BACF7, 0px -2px 0px 0px #1B2733;
 	
 }
 
@@ -133,12 +145,12 @@ input[type=range]:focus {
 
 	width: 100%;
 	height: auto;
-	background: #343434;
+	background: #3498DB;
 	padding: 5px;
 	padding-bottom: 10px;
 	margin: 0px;
-	border-bottom: 3px solid #171717;
-	opacity: 0.9;
+	border-bottom: 3px solid #2980B9;
+	opacity: 1.0;
 	z-index: 5;
 	position: absolute;
 	top: 0px;
@@ -149,11 +161,11 @@ input[type=range]:focus {
 
 	display: inline;
 	float: right;
-	line-height: 30px;
+	line-height: 20px;
 	vertical-align: baseline;
-	font-size: 100px;
-	color: #eda7a5;	
-	text-shadow: 0px 2px 0px #ba514b, 0px 4px 3px #222;
+	font-size: 120px;
+	color: #2980B9;	
+	text-shadow: 0px 2px 0px #2C3E50;
 	margin-right: 20px;
 	cursor: pointer;
 	
@@ -161,8 +173,8 @@ input[type=range]:focus {
 
 #add_new:hover {
 
-	color: #36a8ca;
-	text-shadow: 0px 2px 0px #19587b, 0px 4px 3px #222;
+	color: #F2CA27;
+	text-shadow: 0px 2px 0px #19587b;
 	
 }
 
@@ -170,19 +182,20 @@ input[type=range]:focus {
 
 	display: inline;
 	float: right;
-	line-height: 40px;
+	line-height: 50px;
 	vertical-align: baseline;
-	font-size: 50px;
-	color: #eda7a5;	
-	text-shadow: 0px 2px 0px #ba514b, 0px 4px 3px #222;
+	font-size: 40px;
+	color: #2980B9;	
+	text-shadow: 0px 2px 0px #2C3E50;
 	cursor: pointer;
+	margin-right: 20px;
 
 }
 
 #sort_rating:hover {
 
-	color: #36a8ca;
-	text-shadow: 0px 2px 0px #19587b, 0px 4px 3px #222;
+	color: #F2CA27;
+	text-shadow: 0px 2px 0px #19587b;
 
 }
 
@@ -193,8 +206,8 @@ input[type=range]:focus {
 	line-height: 50px;
 	vertical-align: baseline;
 	font-size: 35px;
-	color: #eda7a5;	
-	text-shadow: 0px 2px 0px #ba514b, 0px 4px 3px #222;
+	color: #2980B9;	
+	text-shadow: 0px 2px 0px #2C3E50;
 	margin-right: 20px;
 	cursor: pointer;
 
@@ -202,8 +215,8 @@ input[type=range]:focus {
 
 #sort_age:hover {
 
-	color: #36a8ca;
-	text-shadow: 0px 2px 0px #19587b, 0px 4px 3px #222;
+	color: #F2CA27;
+	text-shadow: 0px 2px 0px #19587b;
 
 }
 	
@@ -227,6 +240,17 @@ input[type=range]:focus {
 	font-size: 100px;
 	display: block;
 	text-align: center;
+}
+
+.no_highlight {
+	
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none
+	
 }
 
 .beat {
@@ -268,35 +292,11 @@ input[type=range]:focus {
 	
 }
 
-.separator {
-
-	font-size: 30px;
-	margin-left: 20px;
-	margin-right: 15px;
-	color: #171717;
-	text-shadow: 0px 1px 0px rgba(86, 91, 95, 1);
-	position: relative;
-	top: 3px;
-	
-}
-
-.right_separator {
-	
-	font-size: 30px;
-	margin-left: 15px;
-	margin-right: 15px;
-	color: #171717;
-	text-shadow: 0px 1px 0px rgba(86, 91, 95, 1);
-	position: relative;
-	top: 3px;
-	float: right;
-}
-
 .trash_can {
 	
 	font-size: 30px;
 	color: #ddd;
-	text-shadow: 0px 2px 0px #222, 0px 4px 3px #333;
+	text-shadow: 0px 2px 0px #1C2733;
 	margin-left: 20px;
 	cursor: pointer;
 	
@@ -304,8 +304,7 @@ input[type=range]:focus {
 
 .trash_can:hover {
 	
-	color: #eda7a5;	
-	text-shadow: 0px 2px 0px #ba514b, 0px 4px 3px #222;
+	color: #E74C3C;	
 	
 }
 
@@ -351,10 +350,10 @@ input[type=range]:focus {
 .job_number {
 	
 	font-size: 300px;
-	margin-right: 50px;
+	margin-right: 10px;
 	text-align: right;
-	color: #36a8ca;
-	text-shadow: 0px 3px 0px #19587b, 0px 4px 3px #333, 0px -2px 0px #ddd;
+	color: #F2CA27;
+	text-shadow: 0px 3px 0px #F4A62A;
 	cursor: pointer;
 	opacity: 0.0;
 	-webkit-touch-callout: none;
@@ -368,7 +367,7 @@ input[type=range]:focus {
 
 .job_number_min {
 	
-	font-size: 110px;
+	font-size: 43px;
 	
 }
 
@@ -396,11 +395,11 @@ input[type=range]:focus {
 
 .input_box {
 	
-	background: #93ae4d;
+	background: #3498DB;
 	color: #fff;
 	border: none;
-	border-bottom: 2px solid #728c31;
-	border-top: 1px solid #bde851;
+	border-bottom: 2px solid #006FA3;
+	border-top: 1px solid #0095DB;
 	border-radius: 2px;
 	padding: 5px;
 	margin: 5px;
@@ -409,7 +408,6 @@ input[type=range]:focus {
 	font-family: 'Oswald', sans-serif;
 	width: 174px;
 	font-size: 15px;
-	box-shadow: 0px 4px 3px #333;
 	
 }
 
@@ -423,12 +421,13 @@ input[type=range]:focus {
 
 .star {
 	
-	color: #93ae4d;
-	text-shadow: 0px 2px 0px #728c31, 0px -1px 0px #bde851, 0px 2px 5px #222;
-	font-size: 49px;
+	color: #3498DB;
+	text-shadow: 0px 3px 0px #006FA3, 0px -3px 0px #0095DB;
+	font-size: 42px;
 	position: relative;
 	top: 10px;
 	line-height: 10px;
+	margin-left: 2px;
 	
 }
 

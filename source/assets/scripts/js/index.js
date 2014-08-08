@@ -10,6 +10,7 @@ $( document ).ready ( function ( ) {
 	var number_of_jobs          = job_objects.length;
 	var sorted_by_rating        = false;
 	var sorted_by_age           = false;
+	var adding_jobs             = false;
 	var job_status_options      = [ 
 	
 		{ value: "Resume Submitted",    selected: false },
@@ -80,7 +81,7 @@ $( document ).ready ( function ( ) {
 		
 		$( "#add_new" ).removeClass( "beat" );
 		
-		$.get( "assets/templates/job.mst", function( template ) {			
+		$.get( "assets/templates/job.mst", function ( template ) {			
 			
 			var rendered_html = Mustache.render( template, template_values );
 			
@@ -100,75 +101,7 @@ $( document ).ready ( function ( ) {
 			
 			$( "#job_number_" + template_values.job_number ).on( "click", function ( ) {
 				
-				
-				if ( $( "[job='" + template_values.job_number + "']" ).hasClass( "job_form_min" ) === true )
-				{
-					
-					$( "[job='" + template_values.job_number + "']" ).animate( {
-						
-						height: "362px"
-						
-					},
-					500,
-					function ( ) {
-						
-						$( "[job='" + template_values.job_number + "']" ).removeClass( "job_form_min" );
-						
-						$( "[job='" + template_values.job_number + "']" ).css( "height", "" );						
-						
-					} );
-					
-					$( "#job_number_" + template_values.job_number ).animate( {
-						
-						fontSize: "300px"
-						
-					},
-					500,
-					function ( ) {
-						
-						$( "#job_number_" + template_values.job_number ).removeClass( "job_number_min" );
-						
-						$( "#job_number_" + template_values.job_number ).css( "font-size", "" );
-						
-						$( "#job_number_" + template_values.job_number ).attr( "title", "Collapse." );
-						
-					} );
-					
-				}
-				else
-				{	
-					
-					$( "[job='" + template_values.job_number + "']" ).animate( {
-						
-						height: "64px"
-						
-					},
-					500,
-					function ( ) {
-						
-						$( "[job='" + template_values.job_number + "']" ).addClass( "job_form_min" );
-						
-						$( "[job='" + template_values.job_number + "']" ).css( "height", "" );						
-						
-					} );
-					
-					$( "#job_number_" + template_values.job_number ).animate( {
-						
-						fontSize: "110px"
-						
-					},
-					500,
-					function ( ) {
-						
-						$( "#job_number_" + template_values.job_number ).addClass( "job_number_min" );
-						
-						$( "#job_number_" + template_values.job_number ).css( "font-size", "" );
-						
-						$( "#job_number_" + template_values.job_number ).attr( "title", "Expand." );
-						
-					} );
-					
-				}
+				job_number_on_click( template_values.job_number );
 				
 			} );
 			
@@ -197,11 +130,15 @@ $( document ).ready ( function ( ) {
 	function add_jobs( jobs )
 	{
 		
+		adding_jobs = true;
+		
 		if ( jobs.length === 0 )
 		{
 			
 			job_objects    = $( "[job]" );			
 			number_of_jobs = job_objects.length;
+			
+			adding_jobs = false;
 			
 			return false;
 			
@@ -266,75 +203,7 @@ $( document ).ready ( function ( ) {
 			
 			$( "#job_number_" + job.number ).on( "click", function ( ) {
 				
-				
-				if ( $( "[job='" + job.number + "']" ).hasClass( "job_form_min" ) === true )
-				{
-					
-					$( "[job='" + job.number + "']" ).animate( {
-						
-						height: "362px"
-						
-					},
-					500,
-					function ( ) {
-						
-						$( "[job='" + job.number + "']" ).removeClass( "job_form_min" );
-
-						$( "[job='" + job.number + "']" ).css( "height", "" );						
-						
-					} );
-					
-					$( "#job_number_" + job.number ).animate( {
-						
-						fontSize: "300px"
-						
-					},
-					500,
-					function ( ) {
-						
-						$( "#job_number_" + job.number ).removeClass( "job_number_min" );
-						
-						$( "#job_number_" + job.number ).css( "font-size", "" );
-						
-						$( "#job_number_" + job.number ).attr( "title", "Collapse." );
-						
-					} );
-					
-				}
-				else
-				{
-					
-					$( "[job='" + job.number + "']" ).animate( {
-						
-						height: "64px"
-						
-					},
-					500,
-					function ( ) {
-						
-						$( "[job='" + job.number + "']" ).addClass( "job_form_min" );
-						
-						$( "[job='" + job.number + "']" ).css( "height", "" );						
-						
-					} );
-					
-					$( "#job_number_" + job.number ).animate( {
-						
-						fontSize: "110px"
-						
-					},
-					500,
-					function ( ) {
-						
-						$( "#job_number_" + job.number ).addClass( "job_number_min" );
-						
-						$( "#job_number_" + job.number ).css( "font-size", "" );
-						
-						$( "#job_number_" + job.number ).attr( "title", "Expand." );
-						
-					} );
-					
-				}
+				job_number_on_click( job.number );
 				
 			} );
 			
@@ -469,74 +338,7 @@ $( document ).ready ( function ( ) {
 						
 						$( "#job_number_" + x ).on( "click", function ( ) {
 							
-							if ( $( "[job='" + x + "']" ).hasClass( "job_form_min" ) === true )
-							{
-								
-								$( "[job='" + x + "']" ).animate( {
-									
-									height: "362px"
-									
-								},
-							500,
-							function ( ) {
-								
-								$( "[job='" + x + "']" ).removeClass( "job_form_min" );
-								
-								$( "[job='" + x + "']" ).css( "height", "" );						
-								
-							} );
-								
-								$( "#job_number_" + x ).animate( {
-									
-									fontSize: "300px"
-									
-								},
-							500,
-							function ( ) {
-								
-								$( "#job_number_" + x ).removeClass( "job_number_min" );
-								
-								$( "#job_number_" + x ).css( "font-size", "" );
-								
-								$( "#job_number_" + x ).attr( "title", "Collapse." );
-								
-							} );
-								
-							}
-							else
-							{
-								
-								$( "[job='" + x + "']" ).animate( {
-									
-									height: "64px"
-									
-								},
-							500,
-							function ( ) {
-								
-								$( "[job='" + x + "']" ).addClass( "job_form_min" );
-								
-								$( "[job='" + x + "']" ).css( "height", "" );						
-								
-							} );
-								
-								$( "#job_number_" + x ).animate( {
-									
-									fontSize: "110px"
-									
-								},
-							500,
-							function ( ) {
-								
-								$( "#job_number_" + x ).addClass( "job_number_min" );
-								
-								$( "#job_number_" + x ).css( "font-size", "" );
-								
-								$( "#job_number_" + x ).attr( "title", "Expand." );
-								
-							} );
-								
-							}
+							job_number_on_click( x );
 							
 						} );
 					
@@ -566,17 +368,6 @@ $( document ).ready ( function ( ) {
 		
 		$( "#db_status" ).html( "Getting job data..." );
 		
-		var container_children = $( ".container" ).children( );
-		
-		var i = container_children.length;
-		
-		while ( i-- )
-		{
-			
-			container_children[ i ].remove( );
-			
-		}
-		
 		$.ajax( {
 			
 			type: "POST",
@@ -596,6 +387,8 @@ $( document ).ready ( function ( ) {
 				{					
 				
 					data = JSON.parse( data ); 
+					
+					$( ".container" ).empty( );
 					
 					add_jobs( data );
 					
@@ -618,8 +411,6 @@ $( document ).ready ( function ( ) {
 	{
 		
 		$( "#db_status" ).html( "Getting job data..." );
-		
-		$( ".container" ).html( "" );
 		
 		var data = { 
 			
@@ -646,6 +437,8 @@ $( document ).ready ( function ( ) {
 					
 					data = JSON.parse( data ); 
 					
+					$( ".container" ).empty( );
+					
 					add_jobs( data );
 					
 					$( "#db_status" ).html( "" );
@@ -667,6 +460,8 @@ $( document ).ready ( function ( ) {
 	
 	$( "#sort_rating" ).on( "click", function ( ) {
 		
+		if ( adding_jobs ) return;
+		
 		sorted_by_age = false;
 		
 		$( "#sort_age" ).attr( "title", "Sort by age." );
@@ -674,9 +469,9 @@ $( document ).ready ( function ( ) {
 		if ( sorted_by_rating === false )
 		{
 		
-			get_jobs_sorted( "rating" );
-			
 			sorted_by_rating = true;
+			
+			get_jobs_sorted( "rating" );
 			
 			$( "#sort_rating" ).attr( "title", "Unsort by rating." );
 			
@@ -684,9 +479,9 @@ $( document ).ready ( function ( ) {
 		else if ( sorted_by_rating === true )
 		{
 			
-			get_jobs( );
-			
 			sorted_by_rating = false;
+			
+			get_jobs( );
 			
 			$( "#sort_rating" ).attr( "title", "Sort by rating." );
 			
@@ -696,6 +491,8 @@ $( document ).ready ( function ( ) {
 	
 	$( "#sort_age" ).on( "click", function ( ) {
 		
+		if ( adding_jobs ) return;
+		
 		sorted_by_rating = false;
 		
 		$( "#sort_rating" ).attr( "title", "Sort by rating." );
@@ -703,9 +500,9 @@ $( document ).ready ( function ( ) {
 		if ( sorted_by_age === false )
 		{
 			
-			get_jobs_sorted( "time_entered" );
-			
 			sorted_by_age = true;
+			
+			get_jobs_sorted( "time_entered" );
 			
 			$( "#sort_age" ).attr( "title", "Unsort by age." );
 			
@@ -713,9 +510,9 @@ $( document ).ready ( function ( ) {
 		else if ( sorted_by_age === true )
 		{
 			
-			get_jobs( );
-			
 			sorted_by_age = false;
+			
+			get_jobs( );
 			
 			$( "#sort_age" ).attr( "title", "Sort by age." );
 			
@@ -726,6 +523,81 @@ $( document ).ready ( function ( ) {
 	get_jobs( );
 	
 } );
+
+function job_number_on_click( job_number )
+{
+	
+	
+	if ( $( "[job='" + job_number + "']" ).hasClass( "job_form_min" ) === true )
+	{
+		
+		$( "[job='" + job_number + "']" ).animate( {
+			
+			height: "362px"
+			
+		},
+		500,
+		function ( ) {
+			
+			$( "[job='" + job_number + "']" ).removeClass( "job_form_min" );
+			
+			$( "[job='" + job_number + "']" ).css( "height", "" );						
+			
+		} );
+		
+		$( "#job_number_" + job_number ).animate( {
+			
+			fontSize: "300px"
+			
+		},
+		500,
+		function ( ) {
+			
+			$( "#job_number_" + job_number ).removeClass( "job_number_min" );
+			
+			$( "#job_number_" + job_number ).css( "font-size", "" );
+			
+			$( "#job_number_" + job_number ).attr( "title", "Collapse." );
+			
+		} );
+		
+	}
+	else
+	{
+		
+		$( "[job='" + job_number + "']" ).animate( {
+			
+			height: "64px"
+			
+		},
+		500,
+		function ( ) {
+			
+			$( "[job='" + job_number + "']" ).addClass( "job_form_min" );
+			
+			$( "[job='" + job_number + "']" ).css( "height", "" );						
+			
+		} );
+		
+		$( "#job_number_" + job_number ).animate( {
+			
+			fontSize: "42px"
+			
+		},
+		500,
+		function ( ) {
+			
+			$( "#job_number_" + job_number ).addClass( "job_number_min" );
+			
+			$( "#job_number_" + job_number ).css( "font-size", "" );
+			
+			$( "#job_number_" + job_number ).attr( "title", "Expand." );
+			
+		} );
+		
+	}
+	
+}
 
 function get_time_difference_string( milliseconds )
 {
