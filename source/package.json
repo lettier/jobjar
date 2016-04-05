@@ -1,0 +1,31 @@
+{
+  "name": "jobjar",
+  "version": "1.0.0",
+  "description": "Keep track of job applications.",
+  "main": "main.js",
+  "scripts": {
+    "elm:make": "elm make Main.elm --output elm.js || true",
+    "elm:watch": "chokidar '*.elm' -c 'npm run elm:make'",
+    "electron:start": "electron main.js",
+    "electron:watch": "npm run electron:start & npm run elm:watch & wait"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lettier/jobjar.git"
+  },
+  "keywords": [
+    "job",
+    "jobjar",
+    "interviews"
+  ],
+  "author": "David Lettier",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/lettier/jobjar/issues"
+  },
+  "homepage": "https://github.com/lettier/jobjar#readme",
+  "devDependencies": {
+    "chokidar": "^1.4.3",
+    "chokidar-cli": "^1.2.0"
+  }
+}

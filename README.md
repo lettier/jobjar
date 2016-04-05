@@ -1,24 +1,18 @@
-![Screenshot](http://raw.github.com/lettier/jobjar/master/screenshot.jpg)
-
 # JobJar
-   
-A job search web application to track your job applications from resume to hired. Create, read, update, and/or delete your job applications. Jobs can be sorted by age or rating.   
 
-Dependencies include [Node.js](https://github.com/joyent/node), [Mustache.js](https://github.com/janl/mustache.js/), [Nodemon](https://github.com/remy/nodemon), [Mongojs](https://github.com/mafintosh/mongojs), and [MongoDB](https://github.com/mongodb/mongo).  
+## Building
 
-### Install:
+### Commands
 
-```
-[jobjar]$ chmod +x INSTALL
-[jobjar]$ ./INSTALL
-```
-
-### Run:
-
-```
-[jobjar]$ chmod +x RUN
-[jobjar]$ ./RUN
+```bash
+$ cd source
+  $ npm install -g elm
+  $ elm package install
+  $ npm run elm:make
+  $ npm run elm:watch
+  $ npm run electron:start
+  $ npm run electron:watch
 ```
 
-(C) 2014 David Lettier.  
-http://www.lettier.com/
+(C) David Lettier 2016.  
+http://www.lettier.com
